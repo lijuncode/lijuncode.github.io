@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="likumb.github.io/"/>
-  <updated>2016-05-03T15:54:47.000Z</updated>
+  <updated>2016-05-03T16:07:39.000Z</updated>
   <id>likumb.github.io/</id>
   
   <author>
@@ -20,14 +20,16 @@
     <link href="likumb.github.io/2016/05/03/why-write-blog/"/>
     <id>likumb.github.io/2016/05/03/why-write-blog/</id>
     <published>2016-05-03T15:21:49.000Z</published>
-    <updated>2016-05-03T15:54:47.000Z</updated>
+    <updated>2016-05-03T16:07:39.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;记不得这是第几次决定要写博客了，很多年前就认识到了写作的重要性，也曾经很多次决定要好好写写博客，但至今没有一次坚持下来了。每次感到迷茫或者想要好好学习或者想要思考一些问题的时候，都会想写博客。&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h2 id=&quot;写作有利于思考&quot;&gt;&lt;a href=&quot;#写作有利于思考&quot; class=&quot;headerlink&quot; title=&quot;写作有利于思考&quot;&gt;&lt;/a&gt;写作有利于思考&lt;/h2&gt;&lt;p&gt;想要写博客的最直接的原因就是写作有利于思考。因为文字的逻辑性、记录性，它一方面能帮助我们理性地思考，另一方面也能记录下我们的思考，为将来检验反思留下存档。&lt;/p&gt;
 &lt;p&gt;记得刘未鹏有一篇文章就叫《书写是为了更好的思考》详细地论述了书对思考的作用。如果把人脑比作电脑的CPU的话，那写作就好比为我们的大脑增加了一块内存，而且没有大小限制。它可以缓存所有的思考，供大脑下一步思考使用，这样使思考得以连续不中断。&lt;/p&gt;
-&lt;h2 id=&quot;博客3-0&quot;&gt;&lt;a href=&quot;#博客3-0&quot; class=&quot;headerlink&quot; title=&quot;博客3.0&quot;&gt;&lt;/a&gt;博客3.0&lt;/h2&gt;&lt;p&gt;到目前为止我的博客已经经历了3个版本。&lt;br&gt;最初的1.0版是完全使用其它网站提供的博客平台，比如网易博客、新浪博客等等。这些博客的优点很明显，就是可以直接拿来用，我只需要注册一个账号，不需要做任何技术上的配置。当然缺点也很明显，几乎完全没有自主性，网页的设计、展示的内容完全被这些平台控制，页面上经常充斥这各种广告或者和内容毫无相关的推广内容。&lt;/p&gt;
+&lt;h2 id=&quot;博客3-0&quot;&gt;&lt;a href=&quot;#博客3-0&quot; class=&quot;headerlink&quot; title=&quot;博客3.0&quot;&gt;&lt;/a&gt;博客3.0&lt;/h2&gt;&lt;p&gt;到目前为止我的博客已经经历了3个版本。&lt;/p&gt;
+&lt;p&gt;最初的1.0版是完全使用其它网站提供的博客平台，比如网易博客、新浪博客等等。这些博客的优点很明显，就是可以直接拿来用，我只需要注册一个账号，不需要做任何技术上的配置。当然缺点也很明显，几乎完全没有自主性，网页的设计、展示的内容完全被这些平台控制，页面上经常充斥这各种广告或者和内容毫无相关的推广内容。&lt;/p&gt;
 &lt;p&gt;博客2.0版是一个自主搭建的独立博客，自己购买域名、服务器，使用wordpress搭建了一个独立博客。因为完全是自主的，所有页面可以自主决定，不会有任何广告和其它乱七八糟的内容，但因为服务器不再大陆，访问速度不佳，加上技术不足，博客功能较弱。最后这个博客只存在了几个月就不再维护了。&lt;/p&gt;
 &lt;p&gt;现在这个是博客3.0，算是一个半自主的博客。它依赖于github这一平台，可以不用自己买域名和服务器，但又完全是由自己搭建页面，因此在页面布局上具有完全的自主性，加上众多的第三方开源的解决方案，使它结合了博客1.0、2.0版的优点，成为程序员搭建自主博客的最佳选择。&lt;/p&gt;
 &lt;p&gt;我这个博客使用的是&lt;a href=&quot;https://hexo.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;框架、&lt;a href=&quot;https://github.com/iissnan/hexo-theme-next&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;NexT&lt;/a&gt;主题。详细的安装使用介绍可以查看其官方文档。&lt;/p&gt;
@@ -40,7 +42,6 @@
       &lt;blockquote&gt;
 &lt;p&gt;记不得这是第几次决定要写博客了，很多年前就认识到了写作的重要性，也曾经很多次决定要好好写写博客，但至今没有一次坚持下来了。每次感到迷茫或者想要好好学习或者想要思考一些问题的时候，都会想写博客。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&quot;写
     
     </summary>
     
@@ -56,11 +57,12 @@
     <link href="likumb.github.io/2016/05/03/likumb/"/>
     <id>likumb.github.io/2016/05/03/likumb/</id>
     <published>2016-05-03T15:08:30.000Z</published>
-    <updated>2016-05-03T15:09:04.000Z</updated>
+    <updated>2016-05-03T16:07:07.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;十年来，&lt;code&gt;likumb&lt;/code&gt;几乎是我在网上的所有账号名称，它的出现是完全偶然的，它是毫无意义的，它也是独一无二的，它的一切都由我来创造。它代表了我对人生的一些根本认识。&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h2 id=&quot;随机、偶然&quot;&gt;&lt;a href=&quot;#随机、偶然&quot; class=&quot;headerlink&quot; title=&quot;随机、偶然&quot;&gt;&lt;/a&gt;随机、偶然&lt;/h2&gt;&lt;p&gt;可以说没有那个词比&lt;code&gt;likumb&lt;/code&gt;更能代表网络的我的，从2006年第一次注册邮箱开始，我使用&lt;code&gt;likumb&lt;/code&gt;已经十年，它几乎记录了我在网上的所有痕迹。十年来，我在网上的所有账号都是&lt;code&gt;likumb&lt;/code&gt;，打开搜索引擎，不管是百度还是谷歌，搜索&lt;code&gt;likumb&lt;/code&gt;，搜出的内容基本都是我的内容。&lt;br&gt;但对我来说，如此重要的一个名称，它的产生却是完全随机、偶然的。&lt;/p&gt;
 &lt;p&gt;依然记得很清楚，2006年，我还是高二，上计算机课时，申请注册163邮箱，本来是想以我的名字拼音注册，但试了各种组合，账号都已经人注册了。于是我就随便在键盘上敲了几个字母，出现了&lt;code&gt;likumb&lt;/code&gt;，最后用它成功注册了邮箱，有了我的第一个网络账号。&lt;/p&gt;
 &lt;p&gt;在我的观念里，我们每个人的出生也都是完全偶然的。以前有句话说，我们每个人最初都是从几十亿个精子中竞争出来的最优秀者。而实际上，这种说法是错的，我们只能说是最幸运的，却未必是最优秀的，因为在几十亿个精子中，想要成功进入卵子中，几乎完全是靠运气，恰好这个精子成了最后一根稻草，在适合的时机、适合的点上突破了卵子的外壳。而在这之前有无数个精子为它铺路。&lt;/p&gt;
@@ -78,7 +80,6 @@
       &lt;blockquote&gt;
 &lt;p&gt;十年来，&lt;code&gt;likumb&lt;/code&gt;几乎是我在网上的所有账号名称，它的出现是完全偶然的，它是毫无意义的，它也是独一无二的，它的一切都由我来创造。它代表了我对人生的一些根本认识。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&quot;随机、偶
     
     </summary>
     
@@ -94,9 +95,10 @@
     <link href="likumb.github.io/2016/05/03/hello-world/"/>
     <id>likumb.github.io/2016/05/03/hello-world/</id>
     <published>2016-05-03T07:26:28.000Z</published>
-    <updated>2016-05-03T07:26:28.000Z</updated>
+    <updated>2016-05-03T16:07:18.000Z</updated>
     
     <content type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&quot;My New Post&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&quot;Run-server&quot;&gt;&lt;a href=&quot;#Run-server&quot; class=&quot;headerlink&quot; title=&quot;Run server&quot;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
@@ -109,7 +111,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
     
     </summary>
     
