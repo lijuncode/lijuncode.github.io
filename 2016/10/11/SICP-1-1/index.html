@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>SICP-1.1程序设计的基本元素 | LiJun&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="每一种强有力的语言都为此提供三种机制：  基本的表达形式，用于表示语言所关心的最简单的个体。 组合的方式，通过它们可以从较简单的东西出发构造出复合的元素。 抽象的方法，通过它们可以为复合对象命名，并将它们当作单元去操作。在程序设计中，我们需要处理两类要素：过程和数据。而这两者并不是严格分离的，数据是一种我们希望去操作的东西，而过程是有关操作这些数据的规则的描述。这样，任何强有力的程序设计语言都必">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SICP-1.1程序设计的基本元素">
+<meta property="og:url" content="http://lijun.xyz/2016/10/11/SICP-1-1/index.html">
+<meta property="og:site_name" content="LiJun&#39;s Blog">
+<meta property="og:description" content="每一种强有力的语言都为此提供三种机制：  基本的表达形式，用于表示语言所关心的最简单的个体。 组合的方式，通过它们可以从较简单的东西出发构造出复合的元素。 抽象的方法，通过它们可以为复合对象命名，并将它们当作单元去操作。在程序设计中，我们需要处理两类要素：过程和数据。而这两者并不是严格分离的，数据是一种我们希望去操作的东西，而过程是有关操作这些数据的规则的描述。这样，任何强有力的程序设计语言都必">
+<meta property="og:locale">
+<meta property="og:image" content="http://lijun.xyz/images/IMG_2396.jpg">
+<meta property="article:published_time" content="2016-10-11T14:15:13.000Z">
+<meta property="article:modified_time" content="2017-01-23T08:30:10.000Z">
+<meta property="article:author" content="lijun">
+<meta property="article:tag" content="Programming">
+<meta property="article:tag" content="SICP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lijun.xyz/images/IMG_2396.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="LiJun's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LiJun&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://lijun.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-SICP-1-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/10/11/SICP-1-1/" class="article-date">
+  <time class="dt-published" datetime="2016-10-11T14:15:13.000Z" itemprop="datePublished">2016-10-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      SICP-1.1程序设计的基本元素
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>每一种强有力的语言都为此提供三种机制：</p>
+<ul>
+<li>基本的表达形式，用于表示语言所关心的最简单的个体。</li>
+<li>组合的方式，通过它们可以从较简单的东西出发构造出复合的元素。</li>
+<li>抽象的方法，通过它们可以为复合对象命名，并将它们当作单元去操作。<br>在程序设计中，我们需要处理两类要素：过程和数据。而这两者并不是严格分离的，数据是一种我们希望去操作的东西，而过程是有关操作这些数据的规则的描述。这样，任何强有力的程序设计语言都必须能表述基本的数据和基本的过程，还需要提供对过程和数据进行组合和抽象的过程。</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="1-1-1-表达式"><a href="#1-1-1-表达式" class="headerlink" title="1.1.1 表达式"></a>1.1.1 表达式</h2><p>Scheme中的基本表达式就是数：456、3、8…，解释器则会输出你键入的数的值：456、3、8…。</p>
+<p><strong>组合式：</strong>用表示过程的表达形式，将表示数的表达式组合起来，形成复合表达式。构成方式就是用一对括号括起一些表达式，形成一个表，表里最左边的元素是运算符，其它元素为运算对象。比如：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">+</span></span> <span class="number">137</span> <span class="number">349</span>)</span><br><span class="line">(<span class="name"><span class="builtin-name">*</span></span> <span class="number">3</span> <span class="number">5</span> <span class="number">8</span>)</span><br><span class="line">(<span class="name"><span class="builtin-name">-</span></span> <span class="number">4</span> <span class="number">9</span> <span class="number">8</span> <span class="number">76</span>)</span><br></pre></td></tr></table></figure>
+<p>这种将运算符放在所有运算对象左边的形式称为<strong>前缀表示</strong>。这种形式的一大好处就是适用于带有任意个实参的过程，表里右边的运算对象可以是任意个。<br>前缀表示的另一个有点就是可以直接扩充，允许出现组合式嵌套的情况，而且嵌套深度没有限制：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">/</span></span> (<span class="name"><span class="builtin-name">*</span></span> (<span class="name"><span class="builtin-name">+</span></span> <span class="number">4</span> <span class="number">6</span>) (<span class="name"><span class="builtin-name">-</span></span> <span class="number">97</span> <span class="number">32</span>)) (<span class="name"><span class="builtin-name">+</span></span> <span class="number">98</span> <span class="number">78</span>))</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-1-2-命名和环境"><a href="#1-1-2-命名和环境" class="headerlink" title="1.1.2 命名和环境"></a>1.1.2 命名和环境</h2><p><strong>变量：</strong>名字标识符，它的值就是它所对应的那个对象。<br>Scheme中通过<code>define</code>命名变量：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> time <span class="number">30</span>)</span><br><span class="line">age</span><br><span class="line"><span class="number">30</span></span><br><span class="line">(<span class="name"><span class="builtin-name">*</span></span> age <span class="number">2</span>)</span><br><span class="line"><span class="number">60</span></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> distance <span class="number">100</span>)</span><br><span class="line">distance</span><br><span class="line"><span class="number">100</span></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> speed (<span class="name"><span class="builtin-name">/</span></span> distance time))</span><br><span class="line">speed</span><br><span class="line"><span class="number">10/3</span></span><br></pre></td></tr></table></figure>
+
+<p>任何一个复杂的程序都是由一个个简单的过程组成的，通过创建一个程序所需要的名字-对象关联，就可以一步步创建越来越复杂的计算性对象或过程，进而构造一个复杂的程序。</p>
+<p>而解释器为了保持名字 – 对象关联，需要维护某种存储能力，这就被称为<strong>环境</strong>，更准确的说叫做<strong>全局环境</strong>，而在一个计算过程中，完全可能涉及不同的环境。</p>
+<h2 id="1-1-3-组合式的求值"><a href="#1-1-3-组合式的求值" class="headerlink" title="1.1.3 组合式的求值"></a>1.1.3 组合式的求值</h2><p>解释器是按照下面的过程求值一个组合式的：</p>
+<ol>
+<li>求值该组合式的各个子表达式。</li>
+<li>将作为最左子表达式（运算符）的值的那个过程应用于相应的实际参数，也就是其它子表达式（运算对象）的值</li>
+</ol>
+<p>而一个深度嵌套的组合式的求值过程，就是在各个子表达式中不断的重复上面的两个过程。这种在自己的计算步骤中，包含了调用这个计算规则本身的需要，这一求值过程就是<strong>递归</strong>。</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">*</span></span> (<span class="name"><span class="builtin-name">+</span></span> <span class="number">2</span> (<span class="name"><span class="builtin-name">*</span></span> <span class="number">4</span> <span class="number">6</span>))</span><br><span class="line">	 (<span class="name"><span class="builtin-name">+</span></span> <span class="number">3</span> <span class="number">5</span> <span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+<p>可以用树形来表示上面这一组合式的求值过程，这种“值向上穿行”形式的求值过程被称为<strong>树形积累</strong>。</p>
+<p><img src="/images/IMG_2396.jpg" alt="IMG_2396"></p>
+<h2 id="1-1-4-复合过程"><a href="#1-1-4-复合过程" class="headerlink" title="1.1.4 复合过程"></a>1.1.4 复合过程</h2><p><strong>过程定义：</strong>可以给某一复合操作过程提供名字，而后可以通过这个名字将这一复合操作作为一个单元使用了。比如定义一个“平方”操作过程：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">square</span> x) (<span class="name"><span class="builtin-name">*</span></span> x x))</span><br></pre></td></tr></table></figure>
+<p>过程定义的一般形式是：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">&lt;name&gt;</span> &lt;formal parameters&gt;) &lt;body&gt;)</span><br></pre></td></tr></table></figure>
+<p>name是关联的过程名字，formal parameters是形式参数，可以有多个，body是具体的操作过程。<br>也可以将定义好的过程作为基本构件去定义其它过程：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">sum-of-square</span> x y) </span><br><span class="line">	(<span class="name"><span class="builtin-name">+</span></span> (<span class="name">square</span> x) (<span class="name">square</span> y)))</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-1-5-过程应用的代换模型"><a href="#1-1-5-过程应用的代换模型" class="headerlink" title="1.1.5 过程应用的代换模型"></a>1.1.5 过程应用的代换模型</h2><blockquote>
+<p>对于复合过程，过程应用的计算过程是：将复合过程应用于实际参数，就是在将过程体重的每个形参用相应的实参取代之后，对这一过程体求值。</p>
+</blockquote>
+<p>这种计算过程称为过程应用的<strong>代换模型</strong>。</p>
+<p>解释器首先对运算符和各个运算对象求值，而后将得到的过程运用于得到的实际参数，这种先求值参数而后应用的方式称为<strong>应用序求值</strong>。</p>
+<p>先不求出运算对象的值，而是用运算对象表达式去代换形式参数，直到得到一个只包含基本运算符的表达式，然后再去求值。这种“完全展开而后归约”的求值模型称为<strong>正则序求值</strong>。</p>
+<p>Scheme解释器里用的是应用序求值，部分原因在于能避免对于表达式的重复求值，但某些时候，正则序求值也会非常有用，后面的章节会讲到。</p>
+<h2 id="1-1-6-条件表达式和谓词"><a href="#1-1-6-条件表达式和谓词" class="headerlink" title="1.1.6 条件表达式和谓词"></a>1.1.6 条件表达式和谓词</h2><p>条件表达式的一般性形式为：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">cond</span></span> (<span class="name">&lt;p1&gt;</span> &lt;e1&gt;)</span><br><span class="line">	  (<span class="name">&lt;p2&gt;</span> &lt;e2&gt;)</span><br><span class="line">	  (<span class="name">&lt;p3&gt;</span> &lt;e3&gt;)</span><br><span class="line">	  .</span><br><span class="line">	  .</span><br><span class="line">	  (<span class="name">&lt;pn&gt;</span> &lt;en&gt;))		 </span><br></pre></td></tr></table></figure>
+<p>其中<p>是谓词，是一个表达式，它的值会被解释为真或假（Scheme中#t为真，#f为假）。<br>上述形式中，会按顺序求值谓词p，直到求出的值为真，然后计算序列表达式e的值，并返回该值。如果没有找到值为真的p，cond的值则没有定义。</p>
+<p>另外可以通过else返回一个绝对值：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">cond</span></span> (<span class="name">&lt;p1&gt;</span> &lt;e1&gt;)</span><br><span class="line">		 (<span class="name">&lt;p2&gt;</span> &lt;e2&gt;)</span><br><span class="line">		 (<span class="name"><span class="builtin-name">else</span></span> x))		</span><br></pre></td></tr></table></figure>
+
+<p>另外也可以使用<code>if</code>：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">if</span></span> &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;)</span><br><span class="line"><span class="comment">;if 可以省略else </span></span><br></pre></td></tr></table></figure>
+<p>Scheme采用的特殊形式的if，在求值时，解释器会先求值predicate，如果为真，再去求值consequent，否则就是求值alternative。而不是采用应用序求值方式，先对所有参数求值，再进行计算。这一点需要特别注意。</p>
+<p>基本的谓词有<code>&gt;</code>、<code>&lt;</code>和<code>=</code>，逻辑运算符有：</p>
+<ol>
+<li>逻辑与：(and &lt;e1&gt;…&lt;en&gt;)</li>
+<li>逻辑或：(or &lt;e1&gt;…&lt;en&gt;)</li>
+<li>逻辑非：(not &lt;e&gt;)</li>
+</ol>
+<p>具体的代码：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">abs</span></span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">&gt;</span></span> x <span class="number">0</span>) (<span class="name"><span class="builtin-name">-</span></span> x))</span><br><span class="line">        ((<span class="name"><span class="builtin-name">=</span></span> x <span class="number">0</span>) <span class="number">0</span>)</span><br><span class="line">        ((<span class="name"><span class="builtin-name">&lt;</span></span> x <span class="number">0</span>) x)))</span><br><span class="line">        </span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">abs</span></span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">&gt;</span></span> x <span class="number">0</span>) (<span class="name"><span class="builtin-name">-</span></span> x))</span><br><span class="line">        (<span class="name"><span class="builtin-name">else</span></span> x))</span><br><span class="line">        </span><br><span class="line"><span class="comment">;两个abs等价的</span></span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">compare</span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;</span></span> x <span class="number">0</span>)</span><br><span class="line">      (<span class="name"><span class="builtin-name">-</span></span> x)</span><br><span class="line">      x))</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-1-8-过程作为黑箱抽象"><a href="#1-1-8-过程作为黑箱抽象" class="headerlink" title="1.1.8 过程作为黑箱抽象"></a>1.1.8 过程作为黑箱抽象</h2><p>1.1.7中的求平方根的问题，我们分为了若干个子问题，每一个子问题的解决过程都进行了定义，并将这些子过程的定义用作定义其它过程的模块。这样在使用一个过程定义时，这个定义内部的计算细节就被隐藏，也无需关注，我们只需要知道它能做的事即可。比如<code>square</code>，我们只需要知道它能计算一个数的平方，而不需要知道它是如何计算的。这就是一个过程的抽象，在这一抽象层次上，任何能计算出平方的过程都可以用。</p>
+<p>在这些过程抽象中，我们使用到了一些参数，比如<code>x</code>、<code>guess</code>，这些都是形式参数，这些形式参数只在这一抽象的过程中有效，它们被称为约束变量，整个过程体就是这些形参的作用域。</p>
+<p>如果一个变量不是被约束，我们就称它为自由的。比如<code>square</code>、<code>improve guess</code>、<code>abs</code>这些就是自由的，在任何过程体中都是有效的。</p>
+<p>之前我们已经定义了<code>improve guess</code>, <code>good-enough?</code>等过程抽象，但其实我们目前定义的这些只是用来辅助计算<code>sqrt</code>的，但因为它们都是自由的，如果其它的计算过程也需要这样的辅助，但计算过程不一样，就得定义不一样的名字。这样就很容易在定义过程时造成命名混乱，而且这些过程都是辅助特定的计算过程的，现在这样独立定义出来，也会影响代码的可读性。因此我们可以把这些定义放入<code>sqrt</code>过程内部，变成一个约束变量、内部定义。</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">sqrt</span></span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">good-enough?</span> guess x)</span><br><span class="line">    (<span class="name"><span class="builtin-name">&lt;</span></span> (<span class="name"><span class="builtin-name">abs</span></span> (<span class="name"><span class="builtin-name">-</span></span> (<span class="name">square</span> guess) x)) <span class="number">0.0001</span>))</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">improve</span> guess x)</span><br><span class="line">    (<span class="name">average</span> guess (<span class="name"><span class="builtin-name">/</span></span> x guess)))</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">sqrt-iter</span> guess x)</span><br><span class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">good-enough?</span> guess x)</span><br><span class="line">        guess</span><br><span class="line">        (<span class="name">sqrt-iter</span> (<span class="name">improve</span> guess x) x)))</span><br><span class="line">  (<span class="name">sqrt-iter</span> <span class="number">1.0</span> x))</span><br></pre></td></tr></table></figure>
+
+<p>又因为<code>x</code>在整个<code>sqrt</code>过程体中都是有效的，没有必要再在内部传递，可以直接用作实际参数，因此这个过程定义又可以简化为：</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">sqrt</span></span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">good-enough?</span> guess)</span><br><span class="line">    (<span class="name"><span class="builtin-name">&lt;</span></span> (<span class="name"><span class="builtin-name">abs</span></span> (<span class="name"><span class="builtin-name">-</span></span> (<span class="name">square</span> guess) x)) <span class="number">0.0001</span>))</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">improve</span> guess)</span><br><span class="line">    (<span class="name">average</span> guess (<span class="name"><span class="builtin-name">/</span></span> x guess)))</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">sqrt-iter</span> guess)</span><br><span class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">good-enough?</span> guess)</span><br><span class="line">        guess</span><br><span class="line">        (<span class="name">sqrt-iter</span> (<span class="name">improve</span> guess))))</span><br><span class="line">  (<span class="name">sqrt-iter</span> <span class="number">1.0</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lijun.xyz/2016/10/11/SICP-1-1/" data-id="ckilxzvz30009ivs6b4jy17or" data-title="SICP-1.1程序设计的基本元素" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SICP/" rel="tag">SICP</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/05/modularity/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          项目模块拆分总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/27/Swift%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">《Advanced Swift》笔记：Swift字符串长度</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Reading/">Reading</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thinking/">Thinking</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/APP/" rel="tag">APP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apple/" rel="tag">Apple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-structure/" rel="tag">Data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Macbook/" rel="tag">Macbook</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/" rel="tag">Project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Protocol/" rel="tag">Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Realm/" rel="tag">Realm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SICP/" rel="tag">SICP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Steve-Jobs/" rel="tag">Steve Jobs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/" rel="tag">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thinking/" rel="tag">Thinking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITableView/" rel="tag">UITableView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clean-code/" rel="tag">clean-code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kindle/" rel="tag">kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming/" rel="tag">programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/" rel="tag">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" rel="tag">俯卧撑</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%81%A5%E8%BA%AB/" rel="tag">健身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%8C%81/" rel="tag">坚持</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" rel="tag">逻辑思维</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/APP/" style="font-size: 10px;">APP</a> <a href="/tags/Apple/" style="font-size: 10px;">Apple</a> <a href="/tags/Data-structure/" style="font-size: 10px;">Data structure</a> <a href="/tags/English/" style="font-size: 10px;">English</a> <a href="/tags/Macbook/" style="font-size: 12px;">Macbook</a> <a href="/tags/Performance/" style="font-size: 10px;">Performance</a> <a href="/tags/Programming/" style="font-size: 18px;">Programming</a> <a href="/tags/Project/" style="font-size: 10px;">Project</a> <a href="/tags/Protocol/" style="font-size: 14px;">Protocol</a> <a href="/tags/Reading/" style="font-size: 12px;">Reading</a> <a href="/tags/Realm/" style="font-size: 10px;">Realm</a> <a href="/tags/Ruby/" style="font-size: 12px;">Ruby</a> <a href="/tags/SICP/" style="font-size: 10px;">SICP</a> <a href="/tags/Steve-Jobs/" style="font-size: 10px;">Steve Jobs</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/Thinking/" style="font-size: 16px;">Thinking</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/clean-code/" style="font-size: 10px;">clean-code</a> <a href="/tags/kindle/" style="font-size: 10px;">kindle</a> <a href="/tags/programming/" style="font-size: 10px;">programming</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" style="font-size: 10px;">俯卧撑</a> <a href="/tags/%E5%81%A5%E8%BA%AB/" style="font-size: 10px;">健身</a> <a href="/tags/%E5%9D%9A%E6%8C%81/" style="font-size: 10px;">坚持</a> <a href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" style="font-size: 10px;">逻辑思维</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/12/learn-english/">英语学习方法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/12/habit-and-goal/">忘记目标，专注于体系——《掌控习惯》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/05/macbookpro-m1/">iOS 程序员使用M1芯片MacBook Pro两天体验</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/21/LinkedList/">Swift实现数据结构与算法1-链表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/04/macbookpro-2018/">从2014款13寸MacBook Pro升级到2018款15寸MacBook Pro使用体验</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 lijun<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

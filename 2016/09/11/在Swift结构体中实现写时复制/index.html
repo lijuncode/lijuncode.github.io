@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>在Swift结构体中实现写时复制 | LiJun&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="结构体（Struct)在Swift中占有重要地位，在Swift标准库中，大约有90%的公开类型都是结构体，包括我们常用的Array、String、Dictionary。结构体相比类，一个最重要的特性就是它是值类型，而类似引用类型。值类型是通过复制值来赋值的，而不是引用同一个内存地址，这样就不存在数据共享的问题，能防止意外的数据改变，并且它是线程安全的。 举一个很简单的例子，在objc中，数组是类，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Swift结构体中实现写时复制">
+<meta property="og:url" content="http://lijun.xyz/2016/09/11/%E5%9C%A8Swift%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%86%99%E6%97%B6%E5%A4%8D%E5%88%B6/index.html">
+<meta property="og:site_name" content="LiJun&#39;s Blog">
+<meta property="og:description" content="结构体（Struct)在Swift中占有重要地位，在Swift标准库中，大约有90%的公开类型都是结构体，包括我们常用的Array、String、Dictionary。结构体相比类，一个最重要的特性就是它是值类型，而类似引用类型。值类型是通过复制值来赋值的，而不是引用同一个内存地址，这样就不存在数据共享的问题，能防止意外的数据改变，并且它是线程安全的。 举一个很简单的例子，在objc中，数组是类，">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-09-11T14:12:43.000Z">
+<meta property="article:modified_time" content="2017-01-23T08:29:10.000Z">
+<meta property="article:author" content="lijun">
+<meta property="article:tag" content="Swift">
+<meta property="article:tag" content="programming">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="LiJun's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LiJun&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://lijun.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-在Swift结构体中实现写时复制" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/09/11/%E5%9C%A8Swift%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%86%99%E6%97%B6%E5%A4%8D%E5%88%B6/" class="article-date">
+  <time class="dt-published" datetime="2016-09-11T14:12:43.000Z" itemprop="datePublished">2016-09-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      在Swift结构体中实现写时复制
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>结构体（Struct)在Swift中占有重要地位，在Swift标准库中，大约有90%的公开类型都是结构体，包括我们常用的Array、String、Dictionary。结构体相比类，一个最重要的特性就是它是值类型，而类似引用类型。值类型是通过复制值来赋值的，而不是引用同一个内存地址，这样就不存在数据共享的问题，能防止意外的数据改变，并且它是线程安全的。</p>
+<p>举一个很简单的例子，在objc中，数组是类，是引用类型，在Swift中，数组是结构体，是值类型。因此下面的代码中：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> array1 = <span class="type">NSMutableArray</span>(array: [<span class="string">&quot;lihua&quot;</span>, <span class="string">&quot;liming&quot;</span>])</span><br><span class="line"><span class="keyword">let</span> array2 = array1</span><br><span class="line"></span><br><span class="line">array1.addObject(<span class="string">&quot;xiaowang&quot;</span>)</span><br><span class="line">array2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>array1</code>和<code>array2</code>最后都变成了<code>[&quot;lihua&quot;, &quot;liming&quot;, &quot;xiaowang&quot;]</code>，也就是<code>array1</code>的改变会导致<code>array2</code>也发生改变，因为它们两个都是引用类型，并且都引用了同一个内存地址。</p>
+<p>而在Swift中，就不存在这样的问题：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> array3 = [<span class="string">&quot;lihua&quot;</span>, <span class="string">&quot;liming&quot;</span>]</span><br><span class="line"><span class="keyword">var</span> array4 = array3</span><br><span class="line"></span><br><span class="line">array3.append(<span class="string">&quot;xiaowang&quot;</span>)</span><br><span class="line">array4</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这段代码执行后，<code>array3</code>变成了<code>[&quot;lihua&quot;, &quot;liming&quot;, &quot;xiaowang&quot;]</code>，而<code>array4</code>还是<code>[&quot;lihua&quot;, &quot;liming&quot;]</code>。这就是结构体和类的最大区别。</p>
+<p>那么，是不是每次将struct赋值给其它变量或者传递给函数时都会发生复制呢。答案是否定的，在Swift中的Array、Dictionary、String这些类型中，尽管它们都是值类型，但在Swift的具体实现中做了优化，可以避免不必要的复制。在《The Swift Programming Language (Swift 2.2)》一书的“Classes and Structures”一章末尾写道：</p>
+<blockquote>
+<p>The description above refers to the “copying” of strings, arrays, and dictionaries. The behavior you see in your code will always be as if a copy took place. However, Swift only performs an actual copy behind the scenes when it is absolutely necessary to do so. Swift manages all value copying to ensure optimal performance, and you should not avoid assignment to try to preempt this optimization.</p>
+</blockquote>
+<p>在Swift中采用的优化方式叫做写时复制技术，简单的说就是，只有当一个结构体发生了写入行为时才会有复制行为。具体的做法就是，在结构体内部用一个引用类型来存储实际的数据，在不进行写入操作的普通传递过程中，都是将内部的reference的应用计数+1，在进行写入操作时，对内部的reference做一次copy操作用来存储新的数据，防止和之前的reference产生意外的数据共享。</p>
+<p>在Swift中有一个方法：<code>isUniquelyReferencedNonObjC</code>(Swift 2.2)，在Swift3中这个函数变成了这样：<code>isKnownUniquelyReferenced</code>，他能检查一个类的实例是不是唯一的引用，如果是，我们就不需要对结构体实例进行复制，如果不是，说明对象被不同的结构体共享，这时对它进行更改就需要进行复制。</p>
+<p>但这个函数只对Swift对象有用，如果要用在Objective-C对象上，可以将OC对象用Swift进行一次封装。</p>
+<p>下面是《Advanced Swift》书中的一个实现写时复制技术的代码实例，我已经把它转为Swift3了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Box</span>&lt;<span class="title">A</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> unbox: <span class="type">A</span></span><br><span class="line">  <span class="keyword">init</span>(<span class="keyword">_</span> value: <span class="type">A</span>) &#123;</span><br><span class="line">    unbox = value</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">GaussianBlur</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">var</span> boxedFilter: <span class="type">Box</span>&lt;<span class="type">CIFilter</span>&gt; = &#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="built_in">filter</span> = <span class="type">CIFilter</span>(name: <span class="string">&quot;CIGaussianBlur&quot;</span>, withInputParameters: [:])!</span><br><span class="line">    <span class="built_in">filter</span>.setDefaults()</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Box</span>(<span class="built_in">filter</span>)</span><br><span class="line">  &#125;()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">fileprivate</span> <span class="keyword">var</span> <span class="built_in">filter</span>: <span class="type">CIFilter</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123; <span class="keyword">return</span> boxedFilter.unbox &#125;</span><br><span class="line">    <span class="keyword">set</span> &#123; boxedFilter = <span class="type">Box</span>(newValue) &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">var</span> filterForWriting: <span class="type">CIFilter</span> &#123;</span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">get</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> !isKnownUniquelyReferenced(&amp;boxedFilter) &#123;</span><br><span class="line">        <span class="built_in">filter</span> = <span class="built_in">filter</span>.copy() <span class="keyword">as</span>! <span class="type">CIFilter</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">filter</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> inputImage: <span class="type">CIImage</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123; <span class="keyword">return</span> <span class="built_in">filter</span>.value(forKey: kCIInputImageKey) <span class="keyword">as</span>! <span class="type">CIImage</span> &#125;</span><br><span class="line">    <span class="keyword">set</span> &#123; filterForWriting.setValue(newValue, forKey: kCIInputImageKey) &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> radius: <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123; <span class="keyword">return</span> <span class="built_in">filter</span>.value(forKey: kCIInputRadiusKey) <span class="keyword">as</span>! <span class="type">Double</span> &#125;</span><br><span class="line">    <span class="keyword">set</span> &#123; filterForWriting.setValue(newValue, forKey: kCIInputRadiusKey) &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">GaussianBlur</span> </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> outputImage: <span class="type">CIImage?</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">filter</span>.outputImage</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lijun.xyz/2016/09/11/%E5%9C%A8Swift%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%86%99%E6%97%B6%E5%A4%8D%E5%88%B6/" data-id="ckilxzw04004iivs6ee4m20gd" data-title="在Swift结构体中实现写时复制" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/programming/" rel="tag">programming</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/09/25/Swift3-0%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Swift3.0的访问控制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/11/slice/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">《Advanced Swift》笔记4:切片（Slice）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Reading/">Reading</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thinking/">Thinking</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/APP/" rel="tag">APP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apple/" rel="tag">Apple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-structure/" rel="tag">Data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Macbook/" rel="tag">Macbook</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/" rel="tag">Project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Protocol/" rel="tag">Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Realm/" rel="tag">Realm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SICP/" rel="tag">SICP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Steve-Jobs/" rel="tag">Steve Jobs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/" rel="tag">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thinking/" rel="tag">Thinking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITableView/" rel="tag">UITableView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clean-code/" rel="tag">clean-code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kindle/" rel="tag">kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming/" rel="tag">programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/" rel="tag">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" rel="tag">俯卧撑</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%81%A5%E8%BA%AB/" rel="tag">健身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%8C%81/" rel="tag">坚持</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" rel="tag">逻辑思维</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/APP/" style="font-size: 10px;">APP</a> <a href="/tags/Apple/" style="font-size: 10px;">Apple</a> <a href="/tags/Data-structure/" style="font-size: 10px;">Data structure</a> <a href="/tags/English/" style="font-size: 10px;">English</a> <a href="/tags/Macbook/" style="font-size: 12px;">Macbook</a> <a href="/tags/Performance/" style="font-size: 10px;">Performance</a> <a href="/tags/Programming/" style="font-size: 18px;">Programming</a> <a href="/tags/Project/" style="font-size: 10px;">Project</a> <a href="/tags/Protocol/" style="font-size: 14px;">Protocol</a> <a href="/tags/Reading/" style="font-size: 12px;">Reading</a> <a href="/tags/Realm/" style="font-size: 10px;">Realm</a> <a href="/tags/Ruby/" style="font-size: 12px;">Ruby</a> <a href="/tags/SICP/" style="font-size: 10px;">SICP</a> <a href="/tags/Steve-Jobs/" style="font-size: 10px;">Steve Jobs</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/Thinking/" style="font-size: 16px;">Thinking</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/clean-code/" style="font-size: 10px;">clean-code</a> <a href="/tags/kindle/" style="font-size: 10px;">kindle</a> <a href="/tags/programming/" style="font-size: 10px;">programming</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" style="font-size: 10px;">俯卧撑</a> <a href="/tags/%E5%81%A5%E8%BA%AB/" style="font-size: 10px;">健身</a> <a href="/tags/%E5%9D%9A%E6%8C%81/" style="font-size: 10px;">坚持</a> <a href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" style="font-size: 10px;">逻辑思维</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/12/learn-english/">英语学习方法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/12/habit-and-goal/">忘记目标，专注于体系——《掌控习惯》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/05/macbookpro-m1/">iOS 程序员使用M1芯片MacBook Pro两天体验</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/21/LinkedList/">Swift实现数据结构与算法1-链表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/04/macbookpro-2018/">从2014款13寸MacBook Pro升级到2018款15寸MacBook Pro使用体验</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 lijun<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

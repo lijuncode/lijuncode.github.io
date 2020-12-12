@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>《Advanced Swift》笔记1：数组变形（一） —— map 和 flatMap | LiJun&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="map和flatMap是Swift数组中的两个高阶函数，他们能很方便的对数组内的所有元素进行操作，然后返回一个新的数组。本文将探索这两个函数的实际使用以及其内部实现。    map在objective-c中，如果我们要对一个数组里的每个元素进行操作，我们都是通过写for循环来遍历数组，然后在再对元素进行操作。比如我们要对一个数组中的所以元素做平方，并返回新的数组，我们可以这样写： 1234567">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Advanced Swift》笔记1：数组变形（一） —— map 和 flatMap">
+<meta property="og:url" content="http://lijun.xyz/2016/07/31/Swift-%E6%95%B0%E7%BB%84%E5%8F%98%E5%BD%A21/index.html">
+<meta property="og:site_name" content="LiJun&#39;s Blog">
+<meta property="og:description" content="map和flatMap是Swift数组中的两个高阶函数，他们能很方便的对数组内的所有元素进行操作，然后返回一个新的数组。本文将探索这两个函数的实际使用以及其内部实现。    map在objective-c中，如果我们要对一个数组里的每个元素进行操作，我们都是通过写for循环来遍历数组，然后在再对元素进行操作。比如我们要对一个数组中的所以元素做平方，并返回新的数组，我们可以这样写： 1234567">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-07-31T09:37:31.000Z">
+<meta property="article:modified_time" content="2017-01-23T08:30:26.000Z">
+<meta property="article:author" content="lijun">
+<meta property="article:tag" content="Programming">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="LiJun's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LiJun&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://lijun.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Swift-数组变形1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/07/31/Swift-%E6%95%B0%E7%BB%84%E5%8F%98%E5%BD%A21/" class="article-date">
+  <time class="dt-published" datetime="2016-07-31T09:37:31.000Z" itemprop="datePublished">2016-07-31</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      《Advanced Swift》笔记1：数组变形（一） —— map 和 flatMap
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><code>map</code>和<code>flatMap</code>是Swift数组中的两个高阶函数，他们能很方便的对数组内的所有元素进行操作，然后返回一个新的数组。本文将探索这两个函数的实际使用以及其内部实现。</p>
+</blockquote>
+<!--- more --->
+
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>在objective-c中，如果我们要对一个数组里的每个元素进行操作，我们都是通过写<code>for</code>循环来遍历数组，然后在再对元素进行操作。比如我们要对一个数组中的所以元素做平方，并返回新的数组，我们可以这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    NSArray *array &#x3D; @[@(1), @(3), @(5), @(6)];</span><br><span class="line">    NSMutableArray *sauared &#x3D; [NSMutableArray array];</span><br><span class="line">    for (NSNumber *number in array) &#123;</span><br><span class="line">      NSInteger num &#x3D; number.integerValue;</span><br><span class="line">      [sauared addObject:@(num * num)];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;%@&quot;, sauared);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 最后的输出为：</span><br><span class="line">    2016-07-31 15:20:52.497 Array[9945:5153603] (</span><br><span class="line">    1,</span><br><span class="line">    9,</span><br><span class="line">    25,</span><br><span class="line">    36</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在Swift中，为数组提供了一个<code>map</code>方法来做这件事，因此上面的代码在Swift中可以这样写：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">let</span> sauared = x.<span class="built_in">map</span>&#123;$<span class="number">0</span> * $<span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">// sauared = [1, 4, 9]</span></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>map</code>方法的优势很明显：</p>
+<ul>
+<li>代码会变得非常简洁，一句代码就能搞定，代码量变少了，也意味着出错的概率变小了。</li>
+<li>语义更加明确，也就是代码可读性更好。通过<code>map</code>这个方法名，我们一眼就知道这个方法要做什么，而如果是通过<code>for</code>循环，我们必须看完整个上下文的代码的才知道在做什么。</li>
+<li>在Swift中使用<code>map</code>还有一个优点就是能使用<code>let</code>把新的数组定义为不可变量。如果是用<code>for</code>循环，因为要在循环中逐个添加新的数组元素，因此新的数组必须要用<code>var</code>来定义。这样也提高了代码的安全性。</li>
+</ul>
+<h3 id="map-的内部实现"><a href="#map-的内部实现" class="headerlink" title="map 的内部实现"></a>map 的内部实现</h3><p><code>map</code>函数的内部实现原理也非常简单，就是把<code>for</code>循环中的代码用一个泛型函数封装起来了。<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/master/stdlib/public/core/Collection.swift#L1243">源码地址</a></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">map</span>&lt;T&gt;<span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">_</span> transform: @noescape <span class="params">(Iterator.Element)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span></span><br><span class="line">  ) <span class="keyword">rethrows</span> -&gt; [<span class="type">T</span>] &#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> swift-3-indexing-model - review the following</span></span><br><span class="line">    <span class="keyword">let</span> <span class="built_in">count</span>: <span class="type">Int</span> = <span class="built_in">numericCast</span>(<span class="keyword">self</span>.<span class="built_in">count</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">count</span> == <span class="number">0</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result = <span class="type">ContiguousArray</span>&lt;<span class="type">T</span>&gt;()</span><br><span class="line">    result.reserveCapacity(<span class="built_in">count</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> i = <span class="keyword">self</span>.startIndex</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">_</span> <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="built_in">count</span> &#123;</span><br><span class="line">      result.append(<span class="keyword">try</span> transform(<span class="keyword">self</span>[i]))</span><br><span class="line">      formIndex(after: &amp;i)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _expectEnd(i, <span class="keyword">self</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Array</span>(result)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以这样简单地实现：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">my_map</span>&lt;U&gt;<span class="params">(transform: Element -&gt; U)</span></span> -&gt; [<span class="type">U</span>] &#123;</span><br><span class="line">    <span class="keyword">var</span> result: [<span class="type">U</span>] = []</span><br><span class="line">    result.reserveCapacity(<span class="keyword">self</span>.<span class="built_in">count</span>)</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="keyword">self</span> &#123;</span><br><span class="line">      result.append(transform(x))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h2><p><code>flatMap</code>和<code>map</code>很像，都是对数组中每个元素进行操作转换，但<code>flatMap</code>会做两件额外的事，一是将结果数组展平，如果结果数组中的元素也是一个数组，就会将这个数组展平；二是会把数组中的<code>nil</code>过滤，返回一个不包含<code>nil</code>的数组。这两个额外的操作，其实是分别对应<code>flatMap</code>的两个方法, 因此在一个<code>flatMap</code>方法中这两个额外操作是不能同时执行的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">SequenceType</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// Returns an `Array` containing the concatenated results of mapping</span></span><br><span class="line">    <span class="comment">/// `transform` over `self`.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">///     s.flatMap(transform)</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// is equivalent to</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">///     Array(s.map(transform).flatten())</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Complexity: O(*M* + *N*), where *M* is the length of `self`</span></span><br><span class="line">    <span class="comment">///   and *N* is the length of the result.</span></span><br><span class="line">    <span class="meta">@warn_unused_result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;S : SequenceType&gt;<span class="params">(transform: <span class="params">(<span class="keyword">Self</span>.Generator.Element)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">S</span>) <span class="keyword">rethrows</span> -&gt; [<span class="type">S</span>.<span class="type">Generator</span>.<span class="type">Element</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">SequenceType</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// Returns an `Array` containing the non-nil results of mapping</span></span><br><span class="line">    <span class="comment">/// `transform` over `self`.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Complexity: O(*M* + *N*), where *M* is the length of `self`</span></span><br><span class="line">    <span class="comment">///   and *N* is the length of the result.</span></span><br><span class="line">    <span class="meta">@warn_unused_result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;T&gt;<span class="params">(@noescape transform: <span class="params">(<span class="keyword">Self</span>.Generator.Element)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T?</span>) <span class="keyword">rethrows</span> -&gt; [<span class="type">T</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>从文档中我们可以看到第一个<code>flatMap</code>的调用者中的元素其实是一个数组（SequenceType），返回的是一个完全展开的一次数组，通过实际代码，我们可以看出其中的区别：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]]</span><br><span class="line"><span class="keyword">let</span> mapArray = array.<span class="built_in">map</span>&#123;$<span class="number">0</span>.<span class="built_in">map</span>&#123;$<span class="number">0</span> * $<span class="number">0</span>&#125;&#125;</span><br><span class="line"><span class="comment">// mapArray = [[1,4,9,16],[25,36,49]]</span></span><br><span class="line"><span class="keyword">let</span> flatMapArray = array.flatMap&#123;$<span class="number">0</span>.<span class="built_in">map</span>&#123;$<span class="number">0</span> * $<span class="number">0</span>&#125;&#125;</span><br><span class="line"><span class="comment">// flatMapArray = [1,4,9,16,25,36,49]</span></span><br></pre></td></tr></table></figure>
+
+<p>文档的解释是第一个<code>flatMap</code>函数相当于<code>Array(s.map(transform).flatten())</code></p>
+<p>第二个<code>flatMap</code>方法则会返回一个不带<code>nil</code>的数组，示例如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> nilArray: [<span class="type">Any?</span>] = [<span class="number">1</span>, <span class="number">2</span>, <span class="literal">nil</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">let</span> mapArray = nilArray.<span class="built_in">map</span>&#123;$<span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">// mapArray = [1,2,nil,3]</span></span><br><span class="line"><span class="keyword">let</span> flatMapArray = nilArray.flatMap&#123;$<span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">// flatMapArray = [1,2,3]</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>小思考：下面的代码各会返回什么结果</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sArray: [[<span class="type">Int?</span>]] = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="literal">nil</span>, <span class="number">4</span>]]</span><br><span class="line">sArray.flatMap&#123;$<span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> array = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">array.flatMap&#123;$<span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> array: [<span class="type">Any?</span>] = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], <span class="literal">nil</span>]</span><br><span class="line">array.flatMap&#123;$<span class="number">0</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="flatMap-的内部实现"><a href="#flatMap-的内部实现" class="headerlink" title="flatMap 的内部实现"></a>flatMap 的内部实现</h3><p>第一个<code>flatMap</code>的<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/master/stdlib/public/core/SequenceAlgorithms.swift.gyb#L627">源码地址</a></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;SegmentOfResult : Sequence&gt;<span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">_</span> transform: @noescape <span class="params">($&#123;GElement&#125;)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">SegmentOfResult</span></span><br><span class="line">  ) <span class="keyword">rethrows</span> -&gt; [<span class="type">SegmentOfResult</span>.$&#123;<span class="type">GElement</span>&#125;] &#123;</span><br><span class="line">    <span class="keyword">var</span> result: [<span class="type">SegmentOfResult</span>.$&#123;<span class="type">GElement</span>&#125;] = []</span><br><span class="line">    <span class="keyword">for</span> element <span class="keyword">in</span> <span class="keyword">self</span> &#123;</span><br><span class="line">      result.append(contentsOf: <span class="keyword">try</span> transform(element))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>从源码中我们可以发现，<code>flatMap</code>方法之所以能将数组展开，关键是在添加结果是使用的是<code>appendContentsOf</code>方法，这个方法能把数组中的元素取出，放入一个新数组中。</p>
+<p>第二个<code>flatMap</code>的<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/master/stdlib/public/core/SequenceAlgorithms.swift.gyb#L663">源码地址</a></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;ElementOfResult&gt;<span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">_</span> transform: @noescape <span class="params">($&#123;GElement&#125;)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">ElementOfResult?</span></span><br><span class="line">  ) <span class="keyword">rethrows</span> -&gt; [<span class="type">ElementOfResult</span>] &#123;</span><br><span class="line">    <span class="keyword">var</span> result: [<span class="type">ElementOfResult</span>] = []</span><br><span class="line">    <span class="keyword">for</span> element <span class="keyword">in</span> <span class="keyword">self</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> <span class="keyword">let</span> newElement = <span class="keyword">try</span> transform(element) &#123;</span><br><span class="line">        result.append(newElement)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<p>第二个<code>flatMap</code>方法内部则使用了一个<code>if let</code>判断来过滤<code>nil</code>元素。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lijun.xyz/2016/07/31/Swift-%E6%95%B0%E7%BB%84%E5%8F%98%E5%BD%A21/" data-id="ckilxzvz9000hivs6hz1y2j43" data-title="《Advanced Swift》笔记1：数组变形（一） —— map 和 flatMap" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/31/Swift%E6%95%B0%E7%BB%84%E5%8F%98%E5%BD%A22/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          《Advanced Swift》笔记2：数组变形（二）—— filter 和 reduce
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/30/Swift-Transforming-Arrays/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Swift Transforming Arrays</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Reading/">Reading</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thinking/">Thinking</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/APP/" rel="tag">APP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apple/" rel="tag">Apple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-structure/" rel="tag">Data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Macbook/" rel="tag">Macbook</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/" rel="tag">Project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Protocol/" rel="tag">Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Realm/" rel="tag">Realm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SICP/" rel="tag">SICP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Steve-Jobs/" rel="tag">Steve Jobs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/" rel="tag">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thinking/" rel="tag">Thinking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITableView/" rel="tag">UITableView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clean-code/" rel="tag">clean-code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kindle/" rel="tag">kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming/" rel="tag">programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/" rel="tag">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" rel="tag">俯卧撑</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%81%A5%E8%BA%AB/" rel="tag">健身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%8C%81/" rel="tag">坚持</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" rel="tag">逻辑思维</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/APP/" style="font-size: 10px;">APP</a> <a href="/tags/Apple/" style="font-size: 10px;">Apple</a> <a href="/tags/Data-structure/" style="font-size: 10px;">Data structure</a> <a href="/tags/English/" style="font-size: 10px;">English</a> <a href="/tags/Macbook/" style="font-size: 12px;">Macbook</a> <a href="/tags/Performance/" style="font-size: 10px;">Performance</a> <a href="/tags/Programming/" style="font-size: 18px;">Programming</a> <a href="/tags/Project/" style="font-size: 10px;">Project</a> <a href="/tags/Protocol/" style="font-size: 14px;">Protocol</a> <a href="/tags/Reading/" style="font-size: 12px;">Reading</a> <a href="/tags/Realm/" style="font-size: 10px;">Realm</a> <a href="/tags/Ruby/" style="font-size: 12px;">Ruby</a> <a href="/tags/SICP/" style="font-size: 10px;">SICP</a> <a href="/tags/Steve-Jobs/" style="font-size: 10px;">Steve Jobs</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/Thinking/" style="font-size: 16px;">Thinking</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/clean-code/" style="font-size: 10px;">clean-code</a> <a href="/tags/kindle/" style="font-size: 10px;">kindle</a> <a href="/tags/programming/" style="font-size: 10px;">programming</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" style="font-size: 10px;">俯卧撑</a> <a href="/tags/%E5%81%A5%E8%BA%AB/" style="font-size: 10px;">健身</a> <a href="/tags/%E5%9D%9A%E6%8C%81/" style="font-size: 10px;">坚持</a> <a href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" style="font-size: 10px;">逻辑思维</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/12/learn-english/">英语学习方法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/12/habit-and-goal/">忘记目标，专注于体系——《掌控习惯》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/05/macbookpro-m1/">iOS 程序员使用M1芯片MacBook Pro两天体验</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/21/LinkedList/">Swift实现数据结构与算法1-链表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/04/macbookpro-2018/">从2014款13寸MacBook Pro升级到2018款15寸MacBook Pro使用体验</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 lijun<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

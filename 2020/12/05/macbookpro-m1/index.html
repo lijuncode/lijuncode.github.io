@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>iOS 程序员使用M1芯片MacBook Pro两天体验 | LiJun&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="笔者是11号在官网下单的16G+512G的MacBook Pro，25号从上海发货，27号下午到手的。到今天已经差不多用了两天，体验下来，对于iOS开发，总结一句话，就是性能强劲，但尚有兼容问题。 笔者之前用的是18款的6核i7的15.6寸MacBook Pro，依然是16G+521G的组合。首先是用XcodeBanchmark这个项目测试了下，在i7的Mac上花了287秒，M1的Mac花了128">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 程序员使用M1芯片MacBook Pro两天体验">
+<meta property="og:url" content="http://lijun.xyz/2020/12/05/macbookpro-m1/index.html">
+<meta property="og:site_name" content="LiJun&#39;s Blog">
+<meta property="og:description" content="笔者是11号在官网下单的16G+512G的MacBook Pro，25号从上海发货，27号下午到手的。到今天已经差不多用了两天，体验下来，对于iOS开发，总结一句话，就是性能强劲，但尚有兼容问题。 笔者之前用的是18款的6核i7的15.6寸MacBook Pro，依然是16G+521G的组合。首先是用XcodeBanchmark这个项目测试了下，在i7的Mac上花了287秒，M1的Mac花了128">
+<meta property="og:locale">
+<meta property="og:image" content="http://lijun.xyz/images/%E6%88%AA%E5%B1%8F2020-11-29%20%E4%B8%8B%E5%8D%883.13.07.png">
+<meta property="article:published_time" content="2020-12-05T15:12:11.000Z">
+<meta property="article:modified_time" content="2020-12-05T15:14:26.000Z">
+<meta property="article:author" content="lijun">
+<meta property="article:tag" content="Macbook">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://lijun.xyz/images/%E6%88%AA%E5%B1%8F2020-11-29%20%E4%B8%8B%E5%8D%883.13.07.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LiJun's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LiJun&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://lijun.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-macbookpro-m1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/05/macbookpro-m1/" class="article-date">
+  <time class="dt-published" datetime="2020-12-05T15:12:11.000Z" itemprop="datePublished">2020-12-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      iOS 程序员使用M1芯片MacBook Pro两天体验
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>笔者是11号在官网下单的16G+512G的MacBook Pro，25号从上海发货，27号下午到手的。到今天已经差不多用了两天，体验下来，对于iOS开发，总结一句话，就是性能强劲，但尚有兼容问题。</p>
+<p>笔者之前用的是18款的6核i7的15.6寸MacBook Pro，依然是16G+521G的组合。首先是用XcodeBanchmark这个项目测试了下，在i7的Mac上花了287秒，M1的Mac花了128秒。</p>
+<p>接下来是在真机上编译公司的项目，公司的项目依赖了47个库，先clean cache后在编译，i7的Mac花了270秒，M1的Mac花了165秒。编译速度差不多是i7的1.7倍，提升还是很大的。<br><img src="/images/%E6%88%AA%E5%B1%8F2020-11-29%20%E4%B8%8B%E5%8D%883.13.07.png" alt="截屏2020-11-29 下午3.13.07"></p>
+<p>另外，在编译过程中，风扇几乎没有转动，所以也没有什么噪音。只是在后面的持续测试中，如果短时间连续编译多次，温度升高后，风扇才开始转动起来。但相比i7的，只要一开始编译，风扇就开始呼呼转动，已经是非常好了。</p>
+<p>那么，测试到这里，是不是意味着M1的MacBook Pro对于iOS开发者已经非常完美了呢，并不是。上面测试公司项目的时候，我是直接把旧电脑里的项目整体拷贝到新电脑里测试的。接下来，我在M1的MacBook Pro上配置完整的开发环境时，就遇到了兼容性问题。</p>
+<p>第一个兼容问题，是在bundle install 和 pod install 的时候，安装使用ffi时，一直报错，导致pod instal一直失败，最后通过搜索，参照<a target="_blank" rel="noopener" href="https://github.com/CocoaPods/CocoaPods/issues/10220%E7%9D%80%E9%87%8C%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%8C%E7%94%A8">https://github.com/CocoaPods/CocoaPods/issues/10220着里面的方法，用</a> <code>arch -x86_64 gem install ffi</code>，才最终成功。</p>
+<p>第二个兼容问题，是在模拟器中编译时，一直报错”building for iOS Simulator, but linking in object file built for iOS, file ‘…/xxx.a’ for architecture arm64”，试了网上各种方式，都解决不了，依然报错，最后是通过使用Rosetta运行Xcode，才最终在模拟器上编译成功，但由此带来了巨大的性能下降，编译速度直接降到i7的水平。</p>
+<p>我自己分析在模拟器中编译失败的原因是，一些第三方的静态库，对于模拟器只编译了x86的版本，没有arm64的版本，而在M1芯片的MacBook里，模拟器也变成了arm架构，需要arm64的版本，因此导致编译到最后链接阶段时报错失败。</p>
+<p>因此，我们可以推测，目前有不少第三方库在M1的Mac上会有兼容问题，在GitHub上，我也的确发现了几个这样的库。比如firebase就有这个问题：<a target="_blank" rel="noopener" href="https://github.com/firebase/firebase-ios-sdk/issues/6520">https://github.com/firebase/firebase-ios-sdk/issues/6520</a></p>
+<p>这个兼容问题，只是在模拟器中编译时才有，如果时在真机编译，是不会有的，因为过去和现在，真机都是arm架构的。</p>
+<p>以上是我使用M1的MacBook Pro两天的体验，目前来看着两个兼容问题都不大，都可以解决。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lijun.xyz/2020/12/05/macbookpro-m1/" data-id="ckilxzvzo002divs65ko8djfl" data-title="iOS 程序员使用M1芯片MacBook Pro两天体验" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Macbook/" rel="tag">Macbook</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/12/habit-and-goal/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          忘记目标，专注于体系——《掌控习惯》读书笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/21/LinkedList/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Swift实现数据结构与算法1-链表</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Reading/">Reading</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thinking/">Thinking</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/APP/" rel="tag">APP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apple/" rel="tag">Apple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-structure/" rel="tag">Data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Macbook/" rel="tag">Macbook</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/" rel="tag">Project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Protocol/" rel="tag">Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Realm/" rel="tag">Realm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SICP/" rel="tag">SICP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Steve-Jobs/" rel="tag">Steve Jobs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/" rel="tag">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thinking/" rel="tag">Thinking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITableView/" rel="tag">UITableView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clean-code/" rel="tag">clean-code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kindle/" rel="tag">kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming/" rel="tag">programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/" rel="tag">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" rel="tag">俯卧撑</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%81%A5%E8%BA%AB/" rel="tag">健身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%8C%81/" rel="tag">坚持</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" rel="tag">逻辑思维</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/APP/" style="font-size: 10px;">APP</a> <a href="/tags/Apple/" style="font-size: 10px;">Apple</a> <a href="/tags/Data-structure/" style="font-size: 10px;">Data structure</a> <a href="/tags/English/" style="font-size: 10px;">English</a> <a href="/tags/Macbook/" style="font-size: 12px;">Macbook</a> <a href="/tags/Performance/" style="font-size: 10px;">Performance</a> <a href="/tags/Programming/" style="font-size: 18px;">Programming</a> <a href="/tags/Project/" style="font-size: 10px;">Project</a> <a href="/tags/Protocol/" style="font-size: 14px;">Protocol</a> <a href="/tags/Reading/" style="font-size: 12px;">Reading</a> <a href="/tags/Realm/" style="font-size: 10px;">Realm</a> <a href="/tags/Ruby/" style="font-size: 12px;">Ruby</a> <a href="/tags/SICP/" style="font-size: 10px;">SICP</a> <a href="/tags/Steve-Jobs/" style="font-size: 10px;">Steve Jobs</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/Thinking/" style="font-size: 16px;">Thinking</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/clean-code/" style="font-size: 10px;">clean-code</a> <a href="/tags/kindle/" style="font-size: 10px;">kindle</a> <a href="/tags/programming/" style="font-size: 10px;">programming</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" style="font-size: 10px;">俯卧撑</a> <a href="/tags/%E5%81%A5%E8%BA%AB/" style="font-size: 10px;">健身</a> <a href="/tags/%E5%9D%9A%E6%8C%81/" style="font-size: 10px;">坚持</a> <a href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" style="font-size: 10px;">逻辑思维</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/12/learn-english/">英语学习方法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/12/habit-and-goal/">忘记目标，专注于体系——《掌控习惯》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/05/macbookpro-m1/">iOS 程序员使用M1芯片MacBook Pro两天体验</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/21/LinkedList/">Swift实现数据结构与算法1-链表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/04/macbookpro-2018/">从2014款13寸MacBook Pro升级到2018款15寸MacBook Pro使用体验</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 lijun<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

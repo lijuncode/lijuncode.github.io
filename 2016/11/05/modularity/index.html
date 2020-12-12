@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>项目模块拆分总结 | LiJun&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="最近负责完成了公司项目中一个模块的拆分，在此做一个简单的总结，只总结从项目中把某个模块拆分出去的一点经验，不涉及整个项目的模块化工作。  主要步骤：  确认模块的范围。 将模块与项目中其它部分解耦。 将模块拆分出去，并作为一个独立pod，通过cocoapods引入项目。 为拆分出去的模块创建一个可供独立开发的demo。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目模块拆分总结">
+<meta property="og:url" content="http://lijun.xyz/2016/11/05/modularity/index.html">
+<meta property="og:site_name" content="LiJun&#39;s Blog">
+<meta property="og:description" content="最近负责完成了公司项目中一个模块的拆分，在此做一个简单的总结，只总结从项目中把某个模块拆分出去的一点经验，不涉及整个项目的模块化工作。  主要步骤：  确认模块的范围。 将模块与项目中其它部分解耦。 将模块拆分出去，并作为一个独立pod，通过cocoapods引入项目。 为拆分出去的模块创建一个可供独立开发的demo。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-11-05T14:27:01.000Z">
+<meta property="article:modified_time" content="2016-11-05T15:15:38.000Z">
+<meta property="article:author" content="lijun">
+<meta property="article:tag" content="Programming">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="LiJun's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LiJun&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://lijun.xyz"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-modularity" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/11/05/modularity/" class="article-date">
+  <time class="dt-published" datetime="2016-11-05T14:27:01.000Z" itemprop="datePublished">2016-11-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Programming/">Programming</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      项目模块拆分总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近负责完成了公司项目中一个模块的拆分，在此做一个简单的总结，只总结从项目中把某个模块拆分出去的一点经验，不涉及整个项目的模块化工作。</p>
+<blockquote>
+<p><strong>主要步骤：</strong></p>
+<ol>
+<li>确认模块的范围。</li>
+<li>将模块与项目中其它部分解耦。</li>
+<li>将模块拆分出去，并作为一个独立pod，通过cocoapods引入项目。</li>
+<li>为拆分出去的模块创建一个可供独立开发的demo。</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="确认模块的范围"><a href="#确认模块的范围" class="headerlink" title="确认模块的范围"></a>确认模块的范围</h2><p>要将一个模块拆分出去，首先应该明确这个模块的范围，它应该包含哪些功能、组件，这样才能将一个模块真正有效地拆分出去。如果一个模块拆分出去的范围太小，包含的功能或者组件不完整，会导致无法有效地独立开发，这就失去了一个模块化的意义。而如果拆分出去的范围太大了，这样又会带来不必要的冗余代码，甚至影响主项目的开发。</p>
+<p>如果在之前的项目开发中，就已经有了模块化的意识，有意识的将各个模块之间的文件进行隔离，那这一步就会非常轻松，否则模块的代码分散在各处，这时要来理清这些文件的关系会有不小的麻烦。</p>
+<h2 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h2><h3 id="发现依赖"><a href="#发现依赖" class="headerlink" title="发现依赖"></a>发现依赖</h3><p>确认了一个模块的范围后，接下来最重要的一件事就是要把它和项目其它模块解耦，而要实现解耦，第一步就是找出它对项目中其它文件的依赖。</p>
+<p>找依赖关系比较有效的一种方式就是写一个脚本，分析引入的头文件，找出既不属于本模块，又不属于第三方库的头文件，这样用脚本跑一遍就能找出所有用<code>#import</code>方式引入的外部头文件。</p>
+<p>但这里有两个坑，因为我们项目中并不是所有的头文件都是通过<code>#import</code>方式引入的，有两种特例。</p>
+<ul>
+<li>一种是是在oc文件中，通过<code>Project-Swift.h</code>文件引入的依赖，这个文件引入的主要是对Swift文件的依赖，但也有可能夹带oc文件的依赖。</li>
+<li>另一种情况是这个模块中的Swift文件中的依赖。Swift文件中的依赖，并不是通过<code>import</code>方式来引入的，所以比较难发现。这里又有两种依赖，一种是通过桥接文件对oc的依赖，还有一种是直接对Swift文件的文件。</li>
+</ul>
+<p>以上两种特例，目前我也是通过手动去找依赖关系的。如果Swift文件比较多的话，会相当麻烦。</p>
+<p>思考：如果以后大规模使用Swift开发，如何来管理Swift的依赖关系。</p>
+<h3 id="清理依赖"><a href="#清理依赖" class="headerlink" title="清理依赖"></a>清理依赖</h3><p>有以下几种方式：</p>
+<ol>
+<li>如果依赖链很短，可以直接将依赖的文件放入模块中。比如模块依赖了外部的一个<code>a.h</code>文件，而<code>a.h</code>没有其它的依赖，就可以直接将<code>a.h</code>文件放入模块中。</li>
+<li>如果依赖链很短，但有不方便将文件移入模块中，比如会有其它模块依赖它的情况，那可以将这个文件放入一个公共基础库，或者直接拷贝一份放入模块中。</li>
+<li>依赖链很复杂的情况。就可能需要考虑通过中间组件来解耦，比如依赖了某个外部控制器，就可以使用类似<code>FRDIntent</code>的组件来解耦。</li>
+<li>通过参数或方法让外部调用者来配置。</li>
+</ol>
+<h2 id="拆分、pod引入"><a href="#拆分、pod引入" class="headerlink" title="拆分、pod引入"></a>拆分、pod引入</h2><h3 id="创建pod"><a href="#创建pod" class="headerlink" title="创建pod"></a>创建pod</h3><p>解耦之后，接下来就是把这个模块拆分出去，然后通过pod引入。<br>新建一个独立的pod，可以参照<a target="_blank" rel="noopener" href="https://guides.cocoapods.org/making/using-pod-lib-create.html">cocoapods的官方教程</a>。</p>
+<p>按照教程，我们建了一个pod，并带有一个example的demo，这时运行这个demo发现，有极大的概率会编译不过。会有以下几个问题：</p>
+<ol>
+<li>如果原项目中使用了<code>pch</code>文件，则会带来隐性依赖问题。接下来可能会出现某些类、方法、宏没有定义的错误。因为项目中我们使用了pch文件引入了一些依赖，并定义了几个宏。这个问题有两个解决方式，一种是在pod中也创建一个pch文件，方法是设置<a target="_blank" rel="noopener" href="https://guides.cocoapods.org/syntax/podspec.html#prefix_header_contents">prefix_header_contents属性</a>。但并不推荐在pod中使用pch，最好还是在各个文件中手动添加。</li>
+<li>如果出现了<code>libwebp</code>的文件找不到的情况，可以在podspec文件中加上 <code>s.xcconfig = &#123;  &#39;USER_HEADER_SEARCH_PATHS&#39; =&gt; &#39;$(inherited) $(PODS_ROOT)/libwebp/src&#39; &#125;</code>。</li>
+<li>如果出现了其它文件找不到的情况，有两种办法，一种是在podfile文件中，设置<code>CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = &#39;YES&#39;</code>。如果这样还不行，可以把找不到的文件放入私有头文件，当然前提是外部不需要使用这个文件。具体做法是在podspec中设置<code>private_header_files</code>属性。</li>
+<li>另外如果pod是oc、swift混编的，oc要使用Swift的代码，可以通过<code>#import &lt;PodName/PodName-Swift.h&gt;</code>来引入swift代码。</li>
+<li>资源文件的问题，cocopods推荐的做法是在podspec中通过<code>resource_bundles</code>属性，pod.bundle来管理资源文件。采用这种方式，在pod中使用这些资源文件会稍微麻烦点。</li>
+</ol>
+<h3 id="pod引入Frodo中"><a href="#pod引入Frodo中" class="headerlink" title="pod引入Frodo中"></a>pod引入Frodo中</h3><p>如果拆分出去的模块，在pod中已经能独立编译运行，那大部分工作基本已经完成。这时候就是通过cocoapods将它引入项目中。这时需要做的就两件事：</p>
+<ol>
+<li>修改项目中对这个模块文件的引用方式，之前是<code>#import &quot;xxx.h&quot;</code>，现在需要改成<code>#iport &lt;Pod/xxx.h&gt;</code>。</li>
+<li>如果<code>Project-Bridging-Header.h</code>文件有引用这个模块的文件，需要删掉，并在使用到的swift文件中，通过<code>import pod</code>引用。</li>
+</ol>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>最后一步就是建立一个可以供独立开发的demo。</p>
+<ol>
+<li>项目基础配置，比如apiKey之类的基础配置。</li>
+<li>如果有登录，因为登录模块还没有拆分出去，所以如果需要登录，需要自己写。或者把登录模块拆分出去。</li>
+</ol>
+<p>各个项目可能会有不同的架构，涉及的具体步骤可能会略有不同，这个可以具体情况具体分析。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://lijun.xyz/2016/11/05/modularity/" data-id="ckilxzvzl0025ivs61yfq46pz" data-title="项目模块拆分总结" class="article-share-link">Teilen</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/01/07/time-friend/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          时间的朋友2016
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/11/SICP-1-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">SICP-1.1程序设计的基本元素</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Kategorien</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Programming/">Programming</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Project/">Project</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Reading/">Reading</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Thinking/">Thinking</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/APP/" rel="tag">APP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Apple/" rel="tag">Apple</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-structure/" rel="tag">Data structure</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/English/" rel="tag">English</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Macbook/" rel="tag">Macbook</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Performance/" rel="tag">Performance</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Programming/" rel="tag">Programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Project/" rel="tag">Project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Protocol/" rel="tag">Protocol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reading/" rel="tag">Reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Realm/" rel="tag">Realm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby/" rel="tag">Ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SICP/" rel="tag">SICP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Steve-Jobs/" rel="tag">Steve Jobs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/" rel="tag">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/" rel="tag">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Thinking/" rel="tag">Thinking</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITableView/" rel="tag">UITableView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/clean-code/" rel="tag">clean-code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kindle/" rel="tag">kindle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/programming/" rel="tag">programming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/" rel="tag">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" rel="tag">俯卧撑</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%81%A5%E8%BA%AB/" rel="tag">健身</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9D%9A%E6%8C%81/" rel="tag">坚持</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" rel="tag">逻辑思维</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/APP/" style="font-size: 10px;">APP</a> <a href="/tags/Apple/" style="font-size: 10px;">Apple</a> <a href="/tags/Data-structure/" style="font-size: 10px;">Data structure</a> <a href="/tags/English/" style="font-size: 10px;">English</a> <a href="/tags/Macbook/" style="font-size: 12px;">Macbook</a> <a href="/tags/Performance/" style="font-size: 10px;">Performance</a> <a href="/tags/Programming/" style="font-size: 18px;">Programming</a> <a href="/tags/Project/" style="font-size: 10px;">Project</a> <a href="/tags/Protocol/" style="font-size: 14px;">Protocol</a> <a href="/tags/Reading/" style="font-size: 12px;">Reading</a> <a href="/tags/Realm/" style="font-size: 10px;">Realm</a> <a href="/tags/Ruby/" style="font-size: 12px;">Ruby</a> <a href="/tags/SICP/" style="font-size: 10px;">SICP</a> <a href="/tags/Steve-Jobs/" style="font-size: 10px;">Steve Jobs</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/Thinking/" style="font-size: 16px;">Thinking</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/clean-code/" style="font-size: 10px;">clean-code</a> <a href="/tags/kindle/" style="font-size: 10px;">kindle</a> <a href="/tags/programming/" style="font-size: 10px;">programming</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/%E4%BF%AF%E5%8D%A7%E6%92%91/" style="font-size: 10px;">俯卧撑</a> <a href="/tags/%E5%81%A5%E8%BA%AB/" style="font-size: 10px;">健身</a> <a href="/tags/%E5%9D%9A%E6%8C%81/" style="font-size: 10px;">坚持</a> <a href="/tags/%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4/" style="font-size: 10px;">逻辑思维</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/12/12/learn-english/">英语学习方法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/12/habit-and-goal/">忘记目标，专注于体系——《掌控习惯》读书笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/05/macbookpro-m1/">iOS 程序员使用M1芯片MacBook Pro两天体验</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/21/LinkedList/">Swift实现数据结构与算法1-链表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/04/macbookpro-2018/">从2014款13寸MacBook Pro升级到2018款15寸MacBook Pro使用体验</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2020 lijun<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
