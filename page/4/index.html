@@ -157,6 +157,119 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lijun.xyz/2016/07/30/Swift-Transforming-Arrays/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lijun.jpg">
+      <meta itemprop="name" content="lijun">
+      <meta itemprop="description" content="iOS开发者，正在不断学习编程之道。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiJun's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/30/Swift-Transforming-Arrays/" class="post-title-link" itemprop="url">Swift Transforming Arrays</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-30 20:23:36" itemprop="dateCreated datePublished" datetime="2016-07-30T20:23:36+08:00">2016-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2016-07-31 20:03:27" itemprop="dateModified" datetime="2016-07-31T20:03:27+08:00">2016-07-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index"><span itemprop="name">Programming</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2016/07/30/Swift-Transforming-Arrays/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/07/30/Swift-Transforming-Arrays/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Swift-Transforming-Arrays"><a href="#Swift-Transforming-Arrays" class="headerlink" title="Swift Transforming Arrays"></a>Swift Transforming Arrays</h1><p>——by《Advanced Swift》</p>
+<p>In Swift, Array object has a number of Transforming methods, there are map, filter, reduce, flatMap, etc.</p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p>Every programmer has writtern similar code hundreds of times: create a new array, loop over all elements in an existing array, perform an operation on an element, and append the result of that operation to the new array. For example, the follwing code squares an array of integers:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> fibs = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="keyword">var</span> sauared: [<span class="type">Int</span>] = []</span><br><span class="line"><span class="keyword">for</span> fib <span class="keyword">in</span> fibs &#123;</span><br><span class="line">  sauared.append(fib * fib)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Swift arrays have a map method, adopted from the world of functional programming. This method can perform a transformation on every value in the array. So, the above code can write like this:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sauared = fibs.<span class="built_in">map</span> &#123; fib <span class="keyword">in</span> fib * fib &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Use map method has three main advantages:</p>
+<ul>
+<li>It’s shorter, and more importantly, it’s clearer. The map acts a signal, you know immediately what is happening when you see it: a function is going to be applied to every element, returning a new array of the transformed elements.</li>
+<li>We can declare <code>squared</code> with <code>let</code>, because we aren’t mutating it any longer when use <code>map</code> method.</li>
+<li><code>map</code> isn’t hard to write – it’s just need to wrapping up the boilerplate parts of the <code>for</code> loop into a generic function. Here’s one possible implementaion:</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">my_map</span>&lt;U&gt;<span class="params">(transform: Element -&gt; U)</span></span> -&gt; [<span class="type">U</span>] &#123;</span><br><span class="line">    <span class="keyword">var</span> result: [<span class="type">U</span>] = []</span><br><span class="line">    result.reserveCapacity(<span class="keyword">self</span>.<span class="built_in">count</span>)</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="keyword">self</span> &#123;</span><br><span class="line">      result.append(transform(x))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Parameterizing-Behavior-with-Functions"><a href="#Parameterizing-Behavior-with-Functions" class="headerlink" title="Parameterizing Behavior with Functions"></a>Parameterizing Behavior with Functions</h2><p><code>map</code> manages to separate out the boilerplate functionality – which doesn’t vary from call to call –   from the funcionality that always varies: the logic of how exactly to fransform each element.<br>This pattern of parameterizing behavior is found throughout the standard library. There are 13 separate functions that take a closure that allows the caller to customize the key step:</p>
+<ul>
+<li><code>map</code> and <code>flatMap</code> – how to tranform an element</li>
+<li><code>filter</code> – should an element be included?</li>
+<li><code>reduce</code> – how fo fold an element into an aggregate value</li>
+<li><code>sort</code> and <code>lexicographicCompare</code> – in what order should two elements come?</li>
+<li><code>indexOf</code> and <code>contains</code> – does this elements match</li>
+<li><code>minElement</code> and <code>maxElement</code> – which is the min/max of two elements?</li>
+<li><code>elementsEqual</code> and <code>startsWith</code> – are two elements equivalent?</li>
+<li><code>split</code> – is this element a separator?</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://lijun.xyz/2016/05/14/ruby-english/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -975,7 +1088,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -988,7 +1101,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

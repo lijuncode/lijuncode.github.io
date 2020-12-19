@@ -23,14 +23,14 @@
   <meta name="description" content="iOS开发者，正在不断学习编程之道。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="LiJun&#39;s Blog">
-<meta property="og:url" content="http://lijun.xyz/tags/Reading/index.html">
+<meta property="og:url" content="http://lijun.xyz/tags/reading/index.html">
 <meta property="og:site_name" content="LiJun&#39;s Blog">
 <meta property="og:description" content="iOS开发者，正在不断学习编程之道。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="lijun">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://lijun.xyz/tags/Reading/">
+<link rel="canonical" href="http://lijun.xyz/tags/reading/">
 
 
 <script id="page-configurations">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>标签: Reading | LiJun's Blog</title>
+  <title>标签: reading | LiJun's Blog</title>
   
 
 
@@ -160,35 +160,12 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <h2 class="collection-header">Reading
+        <h2 class="collection-header">reading
           <small>标签</small>
         </h2>
       </div>
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-12-12T16:51:54+08:00"
-              content="2020-12-12">
-          12-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/12/12/habit-and-goal/" itemprop="url">
-            <span itemprop="name">忘记目标，专注于体系——《掌控习惯》读书笔记</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
     <div class="collection-year">
       <span class="collection-header">2018</span>
     </div>
@@ -198,15 +175,15 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2018-10-02T11:56:01+08:00"
-              content="2018-10-02">
-          10-02
+              datetime="2018-05-30T23:05:29+08:00"
+              content="2018-05-30">
+          05-30
         </time>
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2018/10/02/how-to-read-book/" itemprop="url">
-            <span itemprop="name">《如何有效阅读一本书》读书笔记</span>
+          <a class="post-title-link" href="/2018/05/30/kindle-oasis-review/" itemprop="url">
+            <span itemprop="name">kindle-oasis-review</span>
           </a>
       </div>
 
@@ -286,7 +263,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -299,7 +276,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -399,6 +376,33 @@
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'cokGMGOurc7NOfdPyDC2xbd2-gzGzoHsz',
+      appKey     : 'xP4U2euRhF3eI60Kv6bsPBtN',
+      placeholder: "留下你的评论",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
+EST = ['nick', 'mail', 'link'];
     var guest = 'nick,mail,link';
     guest = guest.split(',').filter(item => {
       return GUEST.includes(item);

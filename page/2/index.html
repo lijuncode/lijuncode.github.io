@@ -157,6 +157,128 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lijun.xyz/2018/01/29/Realm-basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lijun.jpg">
+      <meta itemprop="name" content="lijun">
+      <meta itemprop="description" content="iOS开发者，正在不断学习编程之道。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiJun's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/29/Realm-basic/" class="post-title-link" itemprop="url">Realm数据库介绍</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2018-01-29 21:53:34 / 修改时间：22:04:23" itemprop="dateCreated datePublished" datetime="2018-01-29T21:53:34+08:00">2018-01-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index"><span itemprop="name">Programming</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/01/29/Realm-basic/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/01/29/Realm-basic/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h2><p>我在瓣读中使用了Realm做数据的持久化存储，所以把自己的一些实践体验分享一下。</p>
+<p>Realm 的身世，大家可以在官网上查看，当初我是看了一遍 Realm 官网上的介绍，就很快决定了选用它，它第一眼吸引的特点有以下几点：</p>
+<p>1、原生就支持 Swift，有 RealmSwift<br>2、多平台、可视化支持，同时支持iOS和Androi**d，还有一个Realm Brower应用，可以查看数据库中的内容。<br>3、使用简单方便，它不是基于Sqlite的封装，而是完全自己开发了一个数据库，完全没有那些sqlite语句，基本上看一眼示例代码就知道怎么用了。</p>
+<!---- more ---->
+
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>下面我们就来看一下 Realm 的一些基本操作</p>
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认配置</span></span><br><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义配置</span></span><br><span class="line"><span class="keyword">let</span> url = <span class="type">URL</span>(fileURLWithPath: <span class="type">RLMRealmPathForFile</span>(<span class="string">&quot;evernoteData.realm&quot;</span>), isDirectory: <span class="literal">false</span>)</span><br><span class="line"><span class="keyword">var</span> config = <span class="type">Realm</span>.<span class="type">Configuration</span>(fileURL: url)</span><br><span class="line">config.schemaVersion = realm.configuration.schemaVersion</span><br><span class="line"><span class="keyword">let</span> evernoteRealm = <span class="keyword">try</span>! <span class="type">Realm</span>(configuration: config)</span><br></pre></td></tr></table></figure>
+
+<h3 id="add-update-delete-query"><a href="#add-update-delete-query" class="headerlink" title="add update delete query"></a>add update delete query</h3><p>需要存储到 Realm 数据库中的 Model 都必须继承自 RealmSwift 自定义的一个类： Object， 自持 Swift 的 nullability 特性，支持一对一和一对多的关系。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> RealmSwift</span><br><span class="line"></span><br><span class="line"><span class="comment">// Dog model</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">dynamic</span> <span class="keyword">var</span> name = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">dynamic</span> <span class="keyword">var</span> owner: <span class="type">Person?</span> <span class="comment">// Properties can be optional</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Person model</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">dynamic</span> <span class="keyword">var</span> name = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">dynamic</span> <span class="keyword">var</span> birthdate = <span class="type">Date</span>(timeIntervalSince1970: <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">let</span> dogs = <span class="type">List</span>&lt;<span class="type">Dog</span>&gt;()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>还可以给 Model 设置主键primaryKey，默认值defaultPropertyValues，忽略的属性ignoredProperties，必要属性requiredProperties，索引indexedProperties。</p>
+<p>比较有用的是主键和索引，最好是给每个 Model 都设置主键，这样便于查询和更新，一开始的时候瓣读上的图书评分model没有设置主键，结果所有的书都用了同一个评分，导致评分都显示一样了。</p>
+<p>要将一个 Model 添加进数据库中也很简单：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> dog = <span class="type">Dog</span>()</span><br><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line"><span class="keyword">try</span>! realm.write() &#123;</span><br><span class="line">    realm.add(dog)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>更新 删除 Model：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> dog = <span class="type">Dog</span>()</span><br><span class="line"><span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line"><span class="keyword">try</span>! realm.write() &#123;</span><br><span class="line">    realm.add(dog, update: <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>! realm.write() &#123;</span><br><span class="line">    dog.name = <span class="string">&quot;ww&quot;</span></span><br><span class="line">    dog.setValue(<span class="string">&quot;hh&quot;</span>, forKeyPath: <span class="string">&quot;name&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除</span></span><br><span class="line"><span class="keyword">try</span>! realm.write() &#123;</span><br><span class="line">    realm.delete(dog)</span><br><span class="line">    realm.deleteAll()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查询：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> dogs = realm.objects(<span class="type">Dog</span>.<span class="keyword">self</span>) <span class="comment">// retrieves all Dogs from the default Realm</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Query using a predicate string</span></span><br><span class="line"><span class="keyword">var</span> tanDogs = realm.objects(<span class="type">Dog</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">&quot;color = &#x27;tan&#x27; AND name BEGINSWITH &#x27;B&#x27;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Query using an NSPredicate</span></span><br><span class="line"><span class="keyword">let</span> predicate = <span class="type">NSPredicate</span>(format: <span class="string">&quot;color = %@ AND name BEGINSWITH %@&quot;</span>, <span class="string">&quot;tan&quot;</span>, <span class="string">&quot;B&quot;</span>)</span><br><span class="line">tanDogs = realm.objects(<span class="type">Dog</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(predicate)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sorting</span></span><br><span class="line"><span class="keyword">let</span> sortedDogs = realm.objects(<span class="type">Dog</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">&quot;color = &#x27;tan&#x27; AND name BEGINSWITH &#x27;B&#x27;&quot;</span>).sorted(byKeyPath: <span class="string">&quot;name&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>Realm 中的所有查询都是懒加载，当你执行上面这些代码的时候，真正的数据并不会加载到内存中，只有当 Model 的属性被真正访问的时候，它才回被加载。而且查询出来的结果是实时更新的。当数据发生变化时不需要再重新查询一遍。</p>
+<p>通知：</p>
+<p>查询出来的结果可以添加通知，监听数据库的变化，来改变UI：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UITableViewController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> notificationToken: <span class="type">NotificationToken?</span> = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">let</span> results = realm.objects(<span class="type">Person</span>.<span class="keyword">self</span>).<span class="built_in">filter</span>(<span class="string">&quot;age &gt; 5&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Observe Results Notifications</span></span><br><span class="line">        notificationToken = results.observe &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] (changes: <span class="type">RealmCollectionChange</span>) <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> tableView = <span class="keyword">self</span>?.tableView <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">            <span class="keyword">switch</span> changes &#123;</span><br><span class="line">            <span class="keyword">case</span> .initial:</span><br><span class="line">                <span class="comment">// Results are now populated and can be accessed without blocking the UI</span></span><br><span class="line">                tableView.reloadData()</span><br><span class="line">            <span class="keyword">case</span> .update(<span class="keyword">_</span>, <span class="keyword">let</span> deletions, <span class="keyword">let</span> insertions, <span class="keyword">let</span> modifications):</span><br><span class="line">                <span class="comment">// Query results have changed, so apply them to the UITableView</span></span><br><span class="line">                tableView.beginUpdates()</span><br><span class="line">                tableView.insertRows(at: insertions.<span class="built_in">map</span>(&#123; <span class="type">IndexPath</span>(row: $<span class="number">0</span>, section: <span class="number">0</span>) &#125;),</span><br><span class="line">                                     with: .automatic)</span><br><span class="line">                tableView.deleteRows(at: deletions.<span class="built_in">map</span>(&#123; <span class="type">IndexPath</span>(row: $<span class="number">0</span>, section: <span class="number">0</span>)&#125;),</span><br><span class="line">                                     with: .automatic)</span><br><span class="line">                tableView.reloadRows(at: modifications.<span class="built_in">map</span>(&#123; <span class="type">IndexPath</span>(row: $<span class="number">0</span>, section: <span class="number">0</span>) &#125;),</span><br><span class="line">                                     with: .automatic)</span><br><span class="line">                tableView.endUpdates()</span><br><span class="line">            <span class="keyword">case</span> .error(<span class="keyword">let</span> error):</span><br><span class="line">                <span class="comment">// An error occurred while opening the Realm file on the background worker thread</span></span><br><span class="line">                <span class="built_in">fatalError</span>(<span class="string">&quot;\(error)&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        notificationToken?.invalidate()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="数据库的迁移"><a href="#数据库的迁移" class="headerlink" title="数据库的迁移"></a>数据库的迁移</h2><p>因为瓣读是不断在增加新的功能，所以数据也是不断增加的，这就需要经常迁移数据库，而Realm要做迁移也非常简单，新增删除表和字段，都不需要做额外的操作，只有修改了字段的时候才需要做手动的迁移，这是瓣读数据库迁移的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> config = <span class="type">Realm</span>.<span class="type">Configuration</span>(</span><br><span class="line">      schemaVersion: <span class="number">2</span>,</span><br><span class="line">      migrationBlock: &#123; migration, oldSchemaVersion <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">if</span> (oldSchemaVersion &lt; <span class="number">1</span>) &#123;</span><br><span class="line">          migration.enumerateObjects(ofType: <span class="type">DBCollection</span>.className()) &#123; oldObject, newObject <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> newObject = newObject, <span class="keyword">let</span> oldObject = oldObject, <span class="keyword">let</span> oldId = oldObject[<span class="string">&quot;id&quot;</span>] <span class="keyword">as</span>? <span class="type">Int</span>  &#123;</span><br><span class="line">              newObject[<span class="string">&quot;id&quot;</span>] = <span class="type">String</span>(oldId)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="type">Realm</span>.<span class="type">Configuration</span>.defaultConfiguration = config</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="多线程操作"><a href="#多线程操作" class="headerlink" title="多线程操作"></a>多线程操作</h2><p>Realm 是一个MVCC数据库，MVCC是Multiversion concurrency control，多版本并发控制。采用的方法是，每一个连接的线程都会数据在一个特定时刻的快照，采用的是和Git一样的源文件管理算法，每一个线程都有一个特定的数据库版本，就像Git的分支。</p>
+<p>因此，Realm 是不允许多个线程访问同一个数据库实例的，必须要每个线程都单独创建一个数据库实例，但线程runloop循环开始的时候，线程中的数据库实例能够自动刷新获取最新的数据库数据，也可以通过执行<code>Realm.refresh()</code> 或者 <code>Realm.commitWrite()</code> 方法来手动刷新。</p>
+<p>对于需要跨线程访问的 Model， 需要用 ThreadSafeReference 来包一层：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> person = <span class="type">Person</span>(name: <span class="string">&quot;Jane&quot;</span>)</span><br><span class="line"><span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">    realm.add(person)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> personRef = <span class="type">ThreadSafeReference</span>(to: person)</span><br><span class="line"><span class="type">DispatchQueue</span>(label: <span class="string">&quot;background&quot;</span>).async &#123;</span><br><span class="line">    autoreleasepool &#123;</span><br><span class="line">        <span class="keyword">let</span> realm = <span class="keyword">try</span>! <span class="type">Realm</span>()</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> person = realm.resolve(personRef) <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="comment">// person was deleted</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>! realm.write &#123;</span><br><span class="line">            person.name = <span class="string">&quot;Jane Doe&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想要深入了解 Realm 的多线程处理机制，可以查看这篇官方文章：<a target="_blank" rel="noopener" href="https://academy.realm.io/cn/posts/threading-deep-dive/">数据库的设计：深入理解Realm的多线程处理机制</a></p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>官方列了很多缺点：一些类名、属性名的长度，属性值的大小等等，影响比较大的缺点应该就是 Model 有很多限制：</p>
+<p>只能继承自 Object<br>不能重写 Setter 和 getter 方法</p>
+<p>类的继承，也基本不能使用多态特性，子、父类不能互相转换，不能对多个类同时进行查询，也没有多类容器。<br>而且最蛋疼的一点是，属性不支持基本的数组和字典，有些属性其实就是一个字符串数组，但因为不支持数组，只能为一个字符串新建一个Model，里面只有一个字符串属性。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://lijun.xyz/2017/08/08/bandu-read/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1131,101 +1253,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://lijun.xyz/2017/01/07/time-friend/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lijun.jpg">
-      <meta itemprop="name" content="lijun">
-      <meta itemprop="description" content="iOS开发者，正在不断学习编程之道。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiJun's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/01/07/time-friend/" class="post-title-link" itemprop="url">时间的朋友2016</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-01-07 21:24:39" itemprop="dateCreated datePublished" datetime="2017-01-07T21:24:39+08:00">2017-01-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2017-01-23 18:06:37" itemprop="dateModified" datetime="2017-01-23T18:06:37+08:00">2017-01-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Thinking/" itemprop="url" rel="index"><span itemprop="name">Thinking</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2017/01/07/time-friend/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2017/01/07/time-friend/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>今天看了罗振宇的《时间的朋友2016》跨年演讲，讲了未来的4只黑天鹅、商业机会，其实这些并不是什么黑天鹅，因为这是个方面的机会早就有人提出过，有的已经是现在大热门了。这四个方面有：时间战场，挖掘现有用户的消费潜力；服务升级，直接给用户超乎想象的优质服务；智能革命，算法不重要，大数据称王；认知迭代，创造认知，开辟新市场。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/01/07/time-friend/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1297,7 +1324,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1310,7 +1337,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
