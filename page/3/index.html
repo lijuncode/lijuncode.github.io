@@ -157,6 +157,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lijun.xyz/2017/01/22/Swift3-iOS8-TableView-bug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/lijun.jpg">
+      <meta itemprop="name" content="lijun">
+      <meta itemprop="description" content="iOS开发者，正在不断学习编程之道。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LiJun's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/01/22/Swift3-iOS8-TableView-bug/" class="post-title-link" itemprop="url">Swift3+iOS8 下 UITableView 的神奇 bug</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-01-22 22:35:20" itemprop="dateCreated datePublished" datetime="2017-01-22T22:35:20+08:00">2017-01-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2017-01-23 18:06:57" itemprop="dateModified" datetime="2017-01-23T18:06:57+08:00">2017-01-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming/" itemprop="url" rel="index"><span itemprop="name">Programming</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/01/22/Swift3-iOS8-TableView-bug/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/01/22/Swift3-iOS8-TableView-bug/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>近期在我厂的实际项目中发现，在iOS 8系统中，Tableview cell 的排版出现了错乱，特别是在执行<code>reloadRows:</code>方法后，cell不仅会出现一个动画，最后高度还会不对，详情看动图：<br><img src="/images/swift_ios8_tablview_bug.gif" alt="swift_ios8_tablview_bug"></p>
+<p>后来经过层层排查，基本可以确定是系统的一个bug，在Swift3 + iOS 8的情况下才会出现。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/01/22/Swift3-iOS8-TableView-bug/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://lijun.xyz/2017/01/07/time-friend/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1088,137 +1184,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://lijun.xyz/2016/07/31/Swift-%E6%95%B0%E7%BB%84%E5%8F%98%E5%BD%A21/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/lijun.jpg">
-      <meta itemprop="name" content="lijun">
-      <meta itemprop="description" content="iOS开发者，正在不断学习编程之道。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LiJun's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/07/31/Swift-%E6%95%B0%E7%BB%84%E5%8F%98%E5%BD%A21/" class="post-title-link" itemprop="url">《Advanced Swift》笔记1：数组变形（一） —— map 和 flatMap</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-07-31 17:37:31" itemprop="dateCreated datePublished" datetime="2016-07-31T17:37:31+08:00">2016-07-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2017-01-23 16:30:26" itemprop="dateModified" datetime="2017-01-23T16:30:26+08:00">2017-01-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Programming/" itemprop="url" rel="index"><span itemprop="name">Programming</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2016/07/31/Swift-%E6%95%B0%E7%BB%84%E5%8F%98%E5%BD%A21/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2016/07/31/Swift-%E6%95%B0%E7%BB%84%E5%8F%98%E5%BD%A21/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p><code>map</code>和<code>flatMap</code>是Swift数组中的两个高阶函数，他们能很方便的对数组内的所有元素进行操作，然后返回一个新的数组。本文将探索这两个函数的实际使用以及其内部实现。</p>
-</blockquote>
-<!--- more --->
-
-<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>在objective-c中，如果我们要对一个数组里的每个元素进行操作，我们都是通过写<code>for</code>循环来遍历数组，然后在再对元素进行操作。比如我们要对一个数组中的所以元素做平方，并返回新的数组，我们可以这样写：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    NSArray *array &#x3D; @[@(1), @(3), @(5), @(6)];</span><br><span class="line">    NSMutableArray *sauared &#x3D; [NSMutableArray array];</span><br><span class="line">    for (NSNumber *number in array) &#123;</span><br><span class="line">      NSInteger num &#x3D; number.integerValue;</span><br><span class="line">      [sauared addObject:@(num * num)];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;%@&quot;, sauared);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 最后的输出为：</span><br><span class="line">    2016-07-31 15:20:52.497 Array[9945:5153603] (</span><br><span class="line">    1,</span><br><span class="line">    9,</span><br><span class="line">    25,</span><br><span class="line">    36</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在Swift中，为数组提供了一个<code>map</code>方法来做这件事，因此上面的代码在Swift中可以这样写：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">let</span> sauared = x.<span class="built_in">map</span>&#123;$<span class="number">0</span> * $<span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">// sauared = [1, 4, 9]</span></span><br></pre></td></tr></table></figure>
-
-<p>使用<code>map</code>方法的优势很明显：</p>
-<ul>
-<li>代码会变得非常简洁，一句代码就能搞定，代码量变少了，也意味着出错的概率变小了。</li>
-<li>语义更加明确，也就是代码可读性更好。通过<code>map</code>这个方法名，我们一眼就知道这个方法要做什么，而如果是通过<code>for</code>循环，我们必须看完整个上下文的代码的才知道在做什么。</li>
-<li>在Swift中使用<code>map</code>还有一个优点就是能使用<code>let</code>把新的数组定义为不可变量。如果是用<code>for</code>循环，因为要在循环中逐个添加新的数组元素，因此新的数组必须要用<code>var</code>来定义。这样也提高了代码的安全性。</li>
-</ul>
-<h3 id="map-的内部实现"><a href="#map-的内部实现" class="headerlink" title="map 的内部实现"></a>map 的内部实现</h3><p><code>map</code>函数的内部实现原理也非常简单，就是把<code>for</code>循环中的代码用一个泛型函数封装起来了。<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/master/stdlib/public/core/Collection.swift#L1243">源码地址</a></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">map</span>&lt;T&gt;<span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">_</span> transform: @noescape <span class="params">(Iterator.Element)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T</span></span><br><span class="line">  ) <span class="keyword">rethrows</span> -&gt; [<span class="type">T</span>] &#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> swift-3-indexing-model - review the following</span></span><br><span class="line">    <span class="keyword">let</span> <span class="built_in">count</span>: <span class="type">Int</span> = <span class="built_in">numericCast</span>(<span class="keyword">self</span>.<span class="built_in">count</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">count</span> == <span class="number">0</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result = <span class="type">ContiguousArray</span>&lt;<span class="type">T</span>&gt;()</span><br><span class="line">    result.reserveCapacity(<span class="built_in">count</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> i = <span class="keyword">self</span>.startIndex</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">_</span> <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="built_in">count</span> &#123;</span><br><span class="line">      result.append(<span class="keyword">try</span> transform(<span class="keyword">self</span>[i]))</span><br><span class="line">      formIndex(after: &amp;i)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    _expectEnd(i, <span class="keyword">self</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="type">Array</span>(result)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们也可以这样简单地实现：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">my_map</span>&lt;U&gt;<span class="params">(transform: Element -&gt; U)</span></span> -&gt; [<span class="type">U</span>] &#123;</span><br><span class="line">    <span class="keyword">var</span> result: [<span class="type">U</span>] = []</span><br><span class="line">    result.reserveCapacity(<span class="keyword">self</span>.<span class="built_in">count</span>)</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="keyword">self</span> &#123;</span><br><span class="line">      result.append(transform(x))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h2><p><code>flatMap</code>和<code>map</code>很像，都是对数组中每个元素进行操作转换，但<code>flatMap</code>会做两件额外的事，一是将结果数组展平，如果结果数组中的元素也是一个数组，就会将这个数组展平；二是会把数组中的<code>nil</code>过滤，返回一个不包含<code>nil</code>的数组。这两个额外的操作，其实是分别对应<code>flatMap</code>的两个方法, 因此在一个<code>flatMap</code>方法中这两个额外操作是不能同时执行的。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">SequenceType</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// Returns an `Array` containing the concatenated results of mapping</span></span><br><span class="line">    <span class="comment">/// `transform` over `self`.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">///     s.flatMap(transform)</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// is equivalent to</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">///     Array(s.map(transform).flatten())</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Complexity: O(*M* + *N*), where *M* is the length of `self`</span></span><br><span class="line">    <span class="comment">///   and *N* is the length of the result.</span></span><br><span class="line">    <span class="meta">@warn_unused_result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;S : SequenceType&gt;<span class="params">(transform: <span class="params">(<span class="keyword">Self</span>.Generator.Element)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">S</span>) <span class="keyword">rethrows</span> -&gt; [<span class="type">S</span>.<span class="type">Generator</span>.<span class="type">Element</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">SequenceType</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// Returns an `Array` containing the non-nil results of mapping</span></span><br><span class="line">    <span class="comment">/// `transform` over `self`.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Complexity: O(*M* + *N*), where *M* is the length of `self`</span></span><br><span class="line">    <span class="comment">///   and *N* is the length of the result.</span></span><br><span class="line">    <span class="meta">@warn_unused_result</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;T&gt;<span class="params">(@noescape transform: <span class="params">(<span class="keyword">Self</span>.Generator.Element)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">T?</span>) <span class="keyword">rethrows</span> -&gt; [<span class="type">T</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>从文档中我们可以看到第一个<code>flatMap</code>的调用者中的元素其实是一个数组（SequenceType），返回的是一个完全展开的一次数组，通过实际代码，我们可以看出其中的区别：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]]</span><br><span class="line"><span class="keyword">let</span> mapArray = array.<span class="built_in">map</span>&#123;$<span class="number">0</span>.<span class="built_in">map</span>&#123;$<span class="number">0</span> * $<span class="number">0</span>&#125;&#125;</span><br><span class="line"><span class="comment">// mapArray = [[1,4,9,16],[25,36,49]]</span></span><br><span class="line"><span class="keyword">let</span> flatMapArray = array.flatMap&#123;$<span class="number">0</span>.<span class="built_in">map</span>&#123;$<span class="number">0</span> * $<span class="number">0</span>&#125;&#125;</span><br><span class="line"><span class="comment">// flatMapArray = [1,4,9,16,25,36,49]</span></span><br></pre></td></tr></table></figure>
-
-<p>文档的解释是第一个<code>flatMap</code>函数相当于<code>Array(s.map(transform).flatten())</code></p>
-<p>第二个<code>flatMap</code>方法则会返回一个不带<code>nil</code>的数组，示例如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> nilArray: [<span class="type">Any?</span>] = [<span class="number">1</span>, <span class="number">2</span>, <span class="literal">nil</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">let</span> mapArray = nilArray.<span class="built_in">map</span>&#123;$<span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">// mapArray = [1,2,nil,3]</span></span><br><span class="line"><span class="keyword">let</span> flatMapArray = nilArray.flatMap&#123;$<span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">// flatMapArray = [1,2,3]</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><strong>小思考：下面的代码各会返回什么结果</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sArray: [[<span class="type">Int?</span>]] = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="literal">nil</span>, <span class="number">4</span>]]</span><br><span class="line">sArray.flatMap&#123;$<span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> array = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">array.flatMap&#123;$<span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> array: [<span class="type">Any?</span>] = [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>], <span class="literal">nil</span>]</span><br><span class="line">array.flatMap&#123;$<span class="number">0</span>&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</blockquote>
-<h3 id="flatMap-的内部实现"><a href="#flatMap-的内部实现" class="headerlink" title="flatMap 的内部实现"></a>flatMap 的内部实现</h3><p>第一个<code>flatMap</code>的<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/master/stdlib/public/core/SequenceAlgorithms.swift.gyb#L627">源码地址</a></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;SegmentOfResult : Sequence&gt;<span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">_</span> transform: @noescape <span class="params">($&#123;GElement&#125;)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">SegmentOfResult</span></span><br><span class="line">  ) <span class="keyword">rethrows</span> -&gt; [<span class="type">SegmentOfResult</span>.$&#123;<span class="type">GElement</span>&#125;] &#123;</span><br><span class="line">    <span class="keyword">var</span> result: [<span class="type">SegmentOfResult</span>.$&#123;<span class="type">GElement</span>&#125;] = []</span><br><span class="line">    <span class="keyword">for</span> element <span class="keyword">in</span> <span class="keyword">self</span> &#123;</span><br><span class="line">      result.append(contentsOf: <span class="keyword">try</span> transform(element))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>从源码中我们可以发现，<code>flatMap</code>方法之所以能将数组展开，关键是在添加结果是使用的是<code>appendContentsOf</code>方法，这个方法能把数组中的元素取出，放入一个新数组中。</p>
-<p>第二个<code>flatMap</code>的<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/master/stdlib/public/core/SequenceAlgorithms.swift.gyb#L663">源码地址</a></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">flatMap</span>&lt;ElementOfResult&gt;<span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">_</span> transform: @noescape <span class="params">($&#123;GElement&#125;)</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">ElementOfResult?</span></span><br><span class="line">  ) <span class="keyword">rethrows</span> -&gt; [<span class="type">ElementOfResult</span>] &#123;</span><br><span class="line">    <span class="keyword">var</span> result: [<span class="type">ElementOfResult</span>] = []</span><br><span class="line">    <span class="keyword">for</span> element <span class="keyword">in</span> <span class="keyword">self</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> <span class="keyword">let</span> newElement = <span class="keyword">try</span> transform(element) &#123;</span><br><span class="line">        result.append(newElement)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
-
-<p>第二个<code>flatMap</code>方法内部则使用了一个<code>if let</code>判断来过滤<code>nil</code>元素。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1290,14 +1255,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
